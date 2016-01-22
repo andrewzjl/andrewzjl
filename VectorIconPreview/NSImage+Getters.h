@@ -10,4 +10,9 @@
 
 @interface NSImage (Getters)
 
++ (NSImage *)grabImage:(NSView *)view;
+
+- (NSImage*)imageWithColor:(NSColor *)iColor;
+- (NSImage*)imageWithSize:(CGSize)size;
+
 @end

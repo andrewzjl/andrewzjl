@@ -13,6 +13,9 @@
 		49FE06F61C50AD310088DAD1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FE06F41C50AD310088DAD1 /* MainMenu.xib */; };
 		49FE07011C50AD310088DAD1 /* VectorIconPreviewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE07001C50AD310088DAD1 /* VectorIconPreviewTests.m */; };
 		49FE070C1C50AD310088DAD1 /* VectorIconPreviewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE070B1C50AD310088DAD1 /* VectorIconPreviewUITests.m */; };
+		49FE071E1C50C2980088DAD1 /* MSIVectorIconHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE071D1C50C2980088DAD1 /* MSIVectorIconHelper.m */; };
+		49FE07241C50E4310088DAD1 /* NSImage+Getters.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE07231C50E4310088DAD1 /* NSImage+Getters.m */; };
+		49FE07571C522C570088DAD1 /* NSColor+Getters.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE07561C522C570088DAD1 /* NSColor+Getters.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,12 @@
 		49FE07071C50AD310088DAD1 /* VectorIconPreviewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VectorIconPreviewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FE070B1C50AD310088DAD1 /* VectorIconPreviewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VectorIconPreviewUITests.m; sourceTree = "<group>"; };
 		49FE070D1C50AD310088DAD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49FE071C1C50C2980088DAD1 /* MSIVectorIconHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIVectorIconHelper.h; sourceTree = "<group>"; };
+		49FE071D1C50C2980088DAD1 /* MSIVectorIconHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSIVectorIconHelper.m; sourceTree = "<group>"; };
+		49FE07221C50E4310088DAD1 /* NSImage+Getters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Getters.h"; sourceTree = "<group>"; };
+		49FE07231C50E4310088DAD1 /* NSImage+Getters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Getters.m"; sourceTree = "<group>"; };
+		49FE07551C522C570088DAD1 /* NSColor+Getters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Getters.h"; sourceTree = "<group>"; };
+		49FE07561C522C570088DAD1 /* NSColor+Getters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Getters.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +110,13 @@
 				49FE06F21C50AD310088DAD1 /* Assets.xcassets */,
 				49FE06F41C50AD310088DAD1 /* MainMenu.xib */,
 				49FE06F71C50AD310088DAD1 /* Info.plist */,
+				49FE071C1C50C2980088DAD1 /* MSIVectorIconHelper.h */,
+				49FE071D1C50C2980088DAD1 /* MSIVectorIconHelper.m */,
 				49FE06EF1C50AD310088DAD1 /* Supporting Files */,
+				49FE07221C50E4310088DAD1 /* NSImage+Getters.h */,
+				49FE07231C50E4310088DAD1 /* NSImage+Getters.m */,
+				49FE07551C522C570088DAD1 /* NSColor+Getters.h */,
+				49FE07561C522C570088DAD1 /* NSColor+Getters.m */,
 			);
 			path = VectorIconPreview;
 			sourceTree = "<group>";
@@ -262,7 +277,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				49FE06F11C50AD310088DAD1 /* main.m in Sources */,
+				49FE07241C50E4310088DAD1 /* NSImage+Getters.m in Sources */,
+				49FE071E1C50C2980088DAD1 /* MSIVectorIconHelper.m in Sources */,
 				49FE06EE1C50AD300088DAD1 /* AppDelegate.m in Sources */,
+				49FE07571C522C570088DAD1 /* NSColor+Getters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

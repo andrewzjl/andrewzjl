@@ -10,4 +10,16 @@
 
 @implementation NSColor (Getters)
 
++ (NSColor*) colorWithInt: (int) colorInt alpha:(CGFloat)alpha		// as 0x00RRGGBB
+{
+    float	red   = (colorInt >> 16) & 0xff;
+    float	green = (colorInt >> 8)  & 0xff;
+    float	blue  =  colorInt		 & 0xff;
+    
+    return [NSColor colorWithRed: red / 255.0
+                           green: green / 255.0
+                            blue: blue / 255.0
+                           alpha: alpha ];
+}
+
 @end

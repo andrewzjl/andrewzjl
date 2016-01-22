@@ -37,4 +37,35 @@
     // Insert code here to tear down your application
 }
 
+- (IBAction)openFolder:(NSButton *)sender {
+    // Create the File Open Dialog class.
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    
+    // Enable the selection of directory in the dialog.
+    [openDlg setCanChooseDirectories:YES];
+    
+    // Can't select a file
+    [openDlg setCanChooseFiles:NO];
+    
+    // Multiple files not allowed
+    [openDlg setAllowsMultipleSelection:NO];
+    
+    // Display the dialog. If the OK button was pressed,
+    // process the files.
+    if ([openDlg runModal] == NSModalResponseOK)
+    {
+        // Get an array containing the full filenames of all
+        // files and directories selected.
+        NSArray* urls = [openDlg URLs];
+        
+        // Loop through all the files and process them.
+        for(int i = 0; i < [urls count]; i++ )
+        {
+            NSURL* url = [urls objectAtIndex:i];
+            NSLog(@"Url: %@", url);
+            [self.folderOfIconFont setStringValue:url.path];
+        }
+    }
+}
+
 @end

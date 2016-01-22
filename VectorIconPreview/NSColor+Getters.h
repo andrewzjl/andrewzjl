@@ -10,4 +10,6 @@
 
 @interface NSColor (Getters)
 
++ (NSColor*) colorWithInt: (int) colorInt alpha:(CGFloat)alpha;
+
 @end
