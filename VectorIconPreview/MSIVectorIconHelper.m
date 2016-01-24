@@ -29,19 +29,14 @@ static NSString *VectorFont = @"iconfont";
     
     // Find the middle
     NSInteger fontSize = (minFontSize + maxFontSize) / 2;
-    // Create a constraint size with max height
-    CGSize constraintSize = CGSizeMake(size.width, MAXFLOAT);
-    // Find label size for current font size
-    CGRect rect = [label.stringValue boundingRectWithSize:constraintSize
-                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                        attributes:@{NSFontAttributeName : [NSFont fontWithName:VectorFont size:fontSize]}
-                                           context:nil];
-    CGSize labelSize = rect.size;
+    
+    // Find string size for current font size
+    CGSize stringSize = [label.stringValue sizeWithAttributes:@{NSFontAttributeName : [NSFont fontWithName:VectorFont size:fontSize]}];
     
     // EDIT: The next block is modified from the original answer posted in SO to consider the width in the decision. This works much better for certain labels that are too thin and were giving bad results.
-    if (labelSize.height >= (size.height + 10) && labelSize.width >= (size.width + 10) && labelSize.height <= (size.height) && labelSize.width <= (size.width)) {
+    if (stringSize.height >= (size.height - 3) && stringSize.width >= (size.width - 3) && stringSize.height <= (size.height) && stringSize.width <= (size.width)) {
         return fontSize;
-    } else if (labelSize.height > size.height || labelSize.width > size.width) {
+    } else if (stringSize.height > size.height || stringSize.width > size.width) {
         return [self binarySearchForFontSizeForLabel:label withMinFontSize:minFontSize withMaxFontSize:fontSize - 1 withSize:size];
     } else {
         return [self binarySearchForFontSizeForLabel:label withMinFontSize:fontSize + 1 withMaxFontSize:maxFontSize withSize:size];

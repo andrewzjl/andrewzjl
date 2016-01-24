@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49A6C9C21C546748004B9AED /* MSIIconInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A6C9C11C546748004B9AED /* MSIIconInfo.m */; };
 		49FE06EE1C50AD300088DAD1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE06ED1C50AD300088DAD1 /* AppDelegate.m */; };
 		49FE06F11C50AD310088DAD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FE06F01C50AD310088DAD1 /* main.m */; };
 		49FE06F31C50AD310088DAD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49FE06F21C50AD310088DAD1 /* Assets.xcassets */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		49A6C9C01C546748004B9AED /* MSIIconInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIIconInfo.h; sourceTree = "<group>"; };
+		49A6C9C11C546748004B9AED /* MSIIconInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSIIconInfo.m; sourceTree = "<group>"; };
 		49FE06E91C50AD300088DAD1 /* VectorIconPreview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VectorIconPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FE06EC1C50AD300088DAD1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		49FE06ED1C50AD300088DAD1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 				49FE07231C50E4310088DAD1 /* NSImage+Getters.m */,
 				49FE07551C522C570088DAD1 /* NSColor+Getters.h */,
 				49FE07561C522C570088DAD1 /* NSColor+Getters.m */,
+				49A6C9C01C546748004B9AED /* MSIIconInfo.h */,
+				49A6C9C11C546748004B9AED /* MSIIconInfo.m */,
 			);
 			path = VectorIconPreview;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 			files = (
 				49FE06F11C50AD310088DAD1 /* main.m in Sources */,
 				49FE07241C50E4310088DAD1 /* NSImage+Getters.m in Sources */,
+				49A6C9C21C546748004B9AED /* MSIIconInfo.m in Sources */,
 				49FE071E1C50C2980088DAD1 /* MSIVectorIconHelper.m in Sources */,
 				49FE06EE1C50AD300088DAD1 /* AppDelegate.m in Sources */,
 				49FE07571C522C570088DAD1 /* NSColor+Getters.m in Sources */,
@@ -501,6 +507,7 @@
 				49FE07121C50AD310088DAD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		49FE07131C50AD310088DAD1 /* Build configuration list for PBXNativeTarget "VectorIconPreviewTests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +516,7 @@
 				49FE07151C50AD310088DAD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		49FE07161C50AD310088DAD1 /* Build configuration list for PBXNativeTarget "VectorIconPreviewUITests" */ = {
 			isa = XCConfigurationList;
@@ -517,6 +525,7 @@
 				49FE07181C50AD310088DAD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
