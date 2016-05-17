@@ -1,0 +1,178 @@
+﻿<Window x:Class="WindowsWorkStationDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowsWorkStationDemo"
+        xmlns:src="clr-namespace:WindowsWorkStationDemo;assembly=WindowsWorkStationDemo"
+        mc:Ignorable="d"
+        Title="WorkStation" Height="640" Width="732" MinWidth="732" MinHeight="300">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="IconFontStyle" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="MinHeight" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" />
+            <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+        </Style>
+        <local:BoolInverterConverter x:Key="BoolInvertConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="New">
+                    <MenuItem Header="Dashboard" Click="new_dashboard" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" Click="Exit_Application"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="todo" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="todo" />
+            </MenuItem>
+            <MenuItem Header="Go">
+                <MenuItem Header="todo" />
+            </MenuItem>
+            <MenuItem Header="Window">
+                <MenuItem Header="todo" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="todo" />
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- top tool bar-->
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Go ahead and back button -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,10,10,10">
+                    <Button Content="&#xE016;" Style="{StaticResource IconFontStyle}" Margin="0" Click="Back_Browsing" IsEnabled="{Binding ElementName=browsingFrame, Path=CanGoBack, Converter={StaticResource BoolInvertConverter}}" />
+                    <Button Content="&#xE017;" Style="{StaticResource IconFontStyle}" Margin="0" Click="Forward_Browsing" IsEnabled="{Binding ElementName=browsingFrame, Path=CanGoForward, Converter={StaticResource BoolInvertConverter}}"/>
+                </StackPanel>
+
+                <!-- view tool bar -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal"  Margin="10,10,0,10">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" >
+                        <Button Content="&#xE8A9;" Style="{StaticResource IconFontStyle}" Margin="0"/>
+                        <Button Content="&#xE700;" Style="{StaticResource IconFontStyle}" Margin="0"/>
+                        <Button Content="&#xE145;" Style="{StaticResource IconFontStyle}" Margin="0"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="10,0,10,0">
+                        <Grid>
+                            <ComboBox Width="150" x:Name="arrangeByComboxBox" Foreground="{Binding ElementName=arrangeByComboxBox, Path=Background}" HorizontalAlignment="Right">
+                                <ComboBoxItem Foreground="{Binding Path=comboboxItemForeground}" HorizontalAlignment="Left">Data Modified</ComboBoxItem>
+                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Data Created</ComboBoxItem>
+                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Owner</ComboBoxItem>
+                                <Separator />
+                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left" IsSelected="True">None</ComboBoxItem>
+                            </ComboBox>
+                            <StackPanel Margin="5" Orientation="Horizontal">
+                                <TextBlock Text="Arrange By: " IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0" Foreground="DarkGray" />
+                                <TextBlock Text="{Binding UpdateSourceTrigger=PropertyChanged, ElementName=arrangeByComboxBox, Mode=TwoWay, Path=SelectedItem.Content}" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid>
+                            <ComboBox Width="150" x:Name="sortByComboxBox" Foreground="{Binding ElementName=sortByComboxBox, Path=Background}" HorizontalAlignment="Right">
+                                <ComboBoxItem Foreground="{Binding Path=comboboxItemForeground}" HorizontalAlignment="Left" IsSelected="True">Data Modified</ComboBoxItem>
+                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Data Created</ComboBoxItem>
+                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Owner</ComboBoxItem>
+                                <ComboBoxItem IsEnabled="False">--------------------------</ComboBoxItem>
+                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Ascending</ComboBoxItem>
+                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Descending</ComboBoxItem>
+                            </ComboBox>
+                            <StackPanel Margin="5" Orientation="Horizontal">
+                                <TextBlock Text="Sort By: " IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0" Foreground="DarkGray" />
+                                <TextBlock Text="{Binding UpdateSourceTrigger=PropertyChanged, ElementName=sortByComboxBox, Mode=TwoWay, Path=SelectedItem.Content}" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- search box -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                    <Grid>
+                        <TextBox x:Name="SearchTermTextBox" Width="200" Margin="0,10,0,10" />
+                        <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="DarkGray" >
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=SearchTermTextBox}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                    <Button Content="&#xE1A3;" Style="{StaticResource IconFontStyle}" Margin="0,10,0,10"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- left function panel -->
+            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource SeparatorBorderStyle}">
+                <!--<Grid Width="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Frame x:Name="sideBarFrame" Source="View/SmartModePage.xaml"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <Button Style="{StaticResource IconFontStyle}" Content="&#xE14C;" Margin="10,0,0,0" />
+                    <Button Style="{StaticResource IconFontStyle}" Content="&#xE12F;" Margin="10,0,0,0" />
+                </StackPanel>
+            </Grid>-->
+                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Center" TabStripPlacement="Bottom">
+                    <TabItem Header="&#xE14C;" FontFamily="Segoe MDL2 Assets" IsSelected="True">
+                        <Frame x:Name="sideBarFrame" Source="View/SmartModePage.xaml"/>
+                    </TabItem>
+                    <TabItem Header="&#xE12F;" FontFamily="Segoe MDL2 Assets">
+                        <Frame x:Name="objectTreeBarFrame" Source="View/ObjectsTreePage.xaml"/>
+                    </TabItem>
+                </TabControl>
+            </Border>
+
+            <!-- right browsing panel -->
+            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource SeparatorBorderStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Frame Name="browsingFrame" NavigationUIVisibility="Hidden"/>
+                    <StackPanel x:Name="pathBar" Grid.Row="1" Visibility="Hidden" Orientation="Horizontal"/>
+                </Grid>
+            </Border>
+
+            <!-- bottom status panel -->
+            <Border Name="StatusBorder" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource SeparatorBorderStyle}">
+                <TextBlock Name="statusBar" Text="status information" HorizontalAlignment="Center" />
+            </Border>
+        </Grid>
+    </Grid>
+        
+</Window>
