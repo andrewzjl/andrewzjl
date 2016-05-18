@@ -17,6 +17,31 @@
         </Style>
         <Style TargetType="Button" x:Key="IconFontButtonStyle" BasedOn="{StaticResource IconFontStyle}" />
         <Style TargetType="ToggleButton" x:Key="IconFontToggleButtonStyle" BasedOn="{StaticResource IconFontStyle}" />
+        <Style TargetType="{x:Type ComboBoxItem}" x:Key="ComboBoxItemCheckBoxStyle" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <DockPanel LastChildFill="True">
+                            <CheckBox Margin="5,0,5,0" BorderThickness="0" DockPanel.Dock="Left" IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}"/>
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Converter={StaticResource EnumToStringConverter}}" HorizontalAlignment="Right"
+                                       Foreground="{Binding ForegroundColor}"/>
+                            <TextBlock />
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Converter={StaticResource EnumToStringConverter}}" Value="-">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                <Separator HorizontalAlignment="Stretch" IsEnabled="False" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <local:BoolInverterConverter x:Key="BoolInvertConverter" />
     </Window.Resources>
 
@@ -87,51 +112,40 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" Margin="0"/>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel IsItemsHost="True" Orientation="Horizontal" Margin="0"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <!--<Button Content="{Binding}" Style="{StaticResource IconFontStyle}" Margin="0"/>-->
                                 <ToggleButton Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}}, Path=Height}" Content="{Binding}" Style="{StaticResource IconFontStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="-1"
                                                   IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <!--<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0">
-                        <Button Content="&#xE8A9;" Style="{StaticResource IconFontStyle}" Margin="0"/>
-                        <Button Content="&#xE700;" Style="{StaticResource IconFontStyle}" Margin="0"/>
-                        <Button Content="&#xE145;" Style="{StaticResource IconFontStyle}" Margin="0"/>
-                    </StackPanel>-->
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="10,0,10,0">
                         <Grid>
-                            <ComboBox Width="150" x:Name="arrangeByComboxBox" Foreground="{Binding ElementName=arrangeByComboxBox, Path=Background}" HorizontalAlignment="Right">
-                                <ComboBoxItem Foreground="{Binding Path=comboboxItemForeground}" HorizontalAlignment="Left">Data Modified</ComboBoxItem>
-                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Data Created</ComboBoxItem>
-                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Owner</ComboBoxItem>
-                                <Separator />
-                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left" IsSelected="True">None</ComboBoxItem>
+                            <ComboBox Width="160" x:Name="arrangeByComboxBox" ItemsSource="{Binding ArrangeByList}" HorizontalContentAlignment="Right" 
+                                      Foreground="{DynamicResource DynamicBackgroundColor}"
+                                      ItemContainerStyle="{StaticResource ComboBoxItemCheckBoxStyle}"
+                                      SelectedItem="{Binding KindOfArrangeBy}">
                             </ComboBox>
                             <StackPanel Margin="5" Orientation="Horizontal">
                                 <TextBlock Text="Arrange By: " IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0" Foreground="DarkGray" />
-                                <TextBlock Text="{Binding UpdateSourceTrigger=PropertyChanged, ElementName=arrangeByComboxBox, Mode=TwoWay, Path=SelectedItem.Content}" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
+                                <TextBlock x:Name="SelectedArrangeByText" Text="{Binding KindOfArrangeBy, Converter={StaticResource EnumToStringConverter}}" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="0">
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
 
                         <Grid>
-                            <ComboBox Width="150" x:Name="sortByComboxBox" Foreground="{Binding ElementName=sortByComboxBox, Path=Background}" HorizontalAlignment="Right">
-                                <ComboBoxItem Foreground="{Binding Path=comboboxItemForeground}" HorizontalAlignment="Left" IsSelected="True">Data Modified</ComboBoxItem>
-                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Data Created</ComboBoxItem>
-                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Owner</ComboBoxItem>
-                                <ComboBoxItem IsEnabled="False">--------------------------</ComboBoxItem>
-                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Ascending</ComboBoxItem>
-                                <ComboBoxItem Foreground="{Binding comboboxItemForeground}" HorizontalAlignment="Left">Descending</ComboBoxItem>
+                            <ComboBox Width="140" x:Name="sortByComboxBox" ItemsSource="{Binding SortByList}" 
+                                      Foreground="{DynamicResource DynamicBackgroundColor}"
+                                      ItemContainerStyle="{StaticResource ComboBoxItemCheckBoxStyle}"
+                                      SelectedItem="{Binding KindOfSortBy}">
                             </ComboBox>
                             <StackPanel Margin="5" Orientation="Horizontal">
                                 <TextBlock Text="Sort By: " IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0" Foreground="DarkGray" />
-                                <TextBlock Text="{Binding UpdateSourceTrigger=PropertyChanged, ElementName=sortByComboxBox, Mode=TwoWay, Path=SelectedItem.Content}" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
+                                <TextBlock Text="{Binding KindOfSortBy,Converter={StaticResource EnumToStringConverter}}" IsHitTestVisible="False" Margin="0">
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
@@ -161,17 +175,6 @@
 
             <!-- left function panel -->
             <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource SeparatorBorderStyle}">
-                <!--<Grid Width="200">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Frame x:Name="sideBarFrame" Source="View/SmartModePage.xaml"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <Button Style="{StaticResource IconFontStyle}" Content="&#xE14C;" Margin="10,0,0,0" />
-                    <Button Style="{StaticResource IconFontStyle}" Content="&#xE12F;" Margin="10,0,0,0" />
-                </StackPanel>
-            </Grid>-->
                 <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Center" TabStripPlacement="Bottom">
                     <TabItem Header="&#xE14C;" FontFamily="Segoe MDL2 Assets" IsSelected="True">
                         <Frame x:Name="sideBarFrame" Source="View/SmartModePage.xaml"/>
@@ -200,5 +203,5 @@
             </Border>
         </Grid>
     </Grid>
-        
+
 </Window>

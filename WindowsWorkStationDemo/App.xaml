@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Strings/en-US/Gui.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="DynamicBackgroundColor" />
             <Style TargetType="Border" x:Key="SeparatorBorderStyle">
                 <Setter Property="Control.BorderBrush" Value="Gray" />
                 <Setter Property="Control.BorderThickness" Value="1" />
@@ -20,6 +21,7 @@
                 <Setter Property="Foreground" Value="Gray" />
             </Style>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:WindowsWorkStationDemo.ViewModel" />
+            <ct:EnumToStringConverter x:Key="EnumToStringConverter" xmlns:ct="clr-namespace:WindowsWorkStationDemo.Utility" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

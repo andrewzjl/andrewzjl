@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 using WindowsWorkStationDemo.Model;
 
 namespace WindowsWorkStationDemo.ViewModel
@@ -171,6 +172,11 @@ namespace WindowsWorkStationDemo.ViewModel
             {
                 return _sortByList;
             }
+        }
+
+        public Brush ForegroundColor
+        {
+            get { return Brushes.Black; }
         }
         #endregion
 
