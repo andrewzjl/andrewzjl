@@ -77,10 +77,14 @@
     </ApplicationDefinition>
     <Compile Include="Model\BrowseViewObject.cs" />
     <Compile Include="Model\DashboardInfo.cs" />
+    <Compile Include="Model\MainWindowUINotificationMsg.cs" />
     <Compile Include="Model\MainWindowUIStatusModel.cs" />
+    <Compile Include="Utility\EnumerateExtension.cs" />
+    <Compile Include="Utility\EnumToStringConverter.cs" />
     <Compile Include="ViewModel\BrowseViewObjectViewModel.cs" />
     <Compile Include="Model\DashboardNotificationMessage.cs" />
     <Compile Include="ViewModel\DashboardsViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowsUIViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\ApplicationsPage.xaml.cs">
       <DependentUpon>ApplicationsPage.xaml</DependentUpon>
@@ -93,9 +97,6 @@
     </Compile>
     <Compile Include="View\DatasetsPage.xaml.cs">
       <DependentUpon>DatasetsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\DocumentsBarPage.xaml.cs">
-      <DependentUpon>DocumentsBarPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DossiersPage.xaml.cs">
       <DependentUpon>DossiersPage.xaml</DependentUpon>
@@ -133,10 +134,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DatasetsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\DocumentsBarPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

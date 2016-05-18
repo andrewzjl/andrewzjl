@@ -34,7 +34,6 @@ namespace WindowsWorkStationDemo
             InitializeComponent();
 
             Current = this;
-            DataContext = Current;
         }
         public enum NotifyType
         {

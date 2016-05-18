@@ -1,13 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WindowsWorkStationDemo.Model
 {
-    class MainWindowUIStatusModel
+    public class MainWindowUIStatusModel
     {
+        public MainWindowUIStatusModel()
+        {
+            BrowseViewStyle = BrowseViewStyle.AsList;
+            KindOfArrangeBy = KindOfArrangeBy.None;
+            KindOfSortBy = KindOfSortBy.None;
+            IsAscending = true;
+            KindOfViewMode = KindOfViewMode.SmartMode;
+            BrowseViewObjectKey = "";
+        }
+
+        public MainWindowUIStatusModel(BrowseViewStyle viewStyle, KindOfArrangeBy arrangeBy, KindOfSortBy sortBy, bool isAscending, KindOfViewMode viewMode, string viewObject)
+        {
+            BrowseViewStyle = viewStyle;
+            KindOfArrangeBy = arrangeBy;
+            KindOfSortBy = sortBy;
+            IsAscending = isAscending;
+            KindOfViewMode = viewMode;
+            BrowseViewObjectKey = viewObject;
+        }
+
         public BrowseViewStyle BrowseViewStyle { get; set; }
 
         public KindOfArrangeBy KindOfArrangeBy { get; set; }
@@ -22,33 +43,57 @@ namespace WindowsWorkStationDemo.Model
 
     public enum BrowseViewStyle
     {
+        [Description("AsIcons")]
         AsIcons,
+        [Description("AsList")]
         AsList,
+        [Description("AsColumns")]
         AsColumns,
+        [Description("AsCoverFlow")]
         AsCoverFlow
     }
 
     public enum KindOfArrangeBy
     {
+        [Description("None")]
         None,
+        [Description("Name")]
         ByName,
+        [Description("Type")]
         ByKind,
+        [Description("Last Opened")]
         ByDateLastOpened,
+        [Description("Data Modified")]
         ByDateModified,
+        [Description("Data Created")]
         ByDateCreated,
-        ByProject
+        [Description("Project")]
+        ByProject,
+        [Description("-")]
+        Reserved
     }
     public enum KindOfSortBy
     {
+        [Description("None")]
         None,
+        [Description("Name")]
         ByName,
+        [Description("Type")]
         ByKind,
+        [Description("Last Opened")]
         ByDateLastOpened,
+        [Description("Date Modified")]
         ByDateModified,
+        [Description("Date Created")]
         ByDateCreated,
+        [Description("Project")]
         ByProject,
+        [Description("Server")]
         ByServer,
-        ByOwner
+        [Description("Owner")]
+        ByOwner,
+        [Description("-")]
+        Reserved
     }
 
     public enum KindOfViewMode

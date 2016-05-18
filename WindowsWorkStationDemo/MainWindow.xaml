@@ -6,14 +6,17 @@
         xmlns:local="clr-namespace:WindowsWorkStationDemo"
         xmlns:src="clr-namespace:WindowsWorkStationDemo;assembly=WindowsWorkStationDemo"
         mc:Ignorable="d"
-        Title="WorkStation" Height="640" Width="732" MinWidth="732" MinHeight="300">
+        Title="WorkStation" Height="640" Width="732" MinWidth="732" MinHeight="300"
+        DataContext="{Binding MainWindowsUIStatus,Source={StaticResource Locator}}">
     <Window.Resources>
-        <Style TargetType="Button" x:Key="IconFontStyle" BasedOn="{StaticResource {x:Type Button}}">
+        <Style TargetType="ButtonBase" x:Key="IconFontStyle">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
             <Setter Property="MinHeight" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" />
             <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
         </Style>
+        <Style TargetType="Button" x:Key="IconFontButtonStyle" BasedOn="{StaticResource IconFontStyle}" />
+        <Style TargetType="ToggleButton" x:Key="IconFontToggleButtonStyle" BasedOn="{StaticResource IconFontStyle}" />
         <local:BoolInverterConverter x:Key="BoolInvertConverter" />
     </Window.Resources>
 
@@ -73,11 +76,34 @@
 
                 <!-- view tool bar -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal"  Margin="10,10,0,10">
-                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" >
+                    <ListBox HorizontalAlignment="Left" ItemsSource="{Binding ViewStyleList}" Margin="0" Padding="-1" BorderThickness="0" SelectionMode="Single" SelectedIndex="{Binding BrowseViewStyle}" IsSynchronizedWithCurrentItem="True">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="-1" />
+                                <Setter Property="MinHeight" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" />
+                                <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" Margin="0"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <!--<Button Content="{Binding}" Style="{StaticResource IconFontStyle}" Margin="0"/>-->
+                                <ToggleButton Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}}, Path=Height}" Content="{Binding}" Style="{StaticResource IconFontStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="-1"
+                                                  IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0">
                         <Button Content="&#xE8A9;" Style="{StaticResource IconFontStyle}" Margin="0"/>
                         <Button Content="&#xE700;" Style="{StaticResource IconFontStyle}" Margin="0"/>
                         <Button Content="&#xE145;" Style="{StaticResource IconFontStyle}" Margin="0"/>
-                    </StackPanel>
+                    </StackPanel>-->
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="10,0,10,0">
                         <Grid>
                             <ComboBox Width="150" x:Name="arrangeByComboxBox" Foreground="{Binding ElementName=arrangeByComboxBox, Path=Background}" HorizontalAlignment="Right">

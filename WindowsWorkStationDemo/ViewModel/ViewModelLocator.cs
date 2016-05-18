@@ -43,6 +43,7 @@ namespace WindowsWorkStationDemo.ViewModel
             ////}
 
             SimpleIoc.Default.Register<BrowseViewObjectViewModel>();
+            SimpleIoc.Default.Register<MainWindowsUIStatusViewModel>();
         }
 
         public BrowseViewObjectViewModel BrowseViewObject
@@ -50,6 +51,14 @@ namespace WindowsWorkStationDemo.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<BrowseViewObjectViewModel>();
+            }
+        }
+
+        public MainWindowsUIStatusViewModel MainWindowsUIStatus
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MainWindowsUIStatusViewModel>();
             }
         }
         
