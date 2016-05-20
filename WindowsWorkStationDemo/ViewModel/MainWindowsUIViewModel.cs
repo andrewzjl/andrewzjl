@@ -1,8 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Media;
 using WindowsWorkStationDemo.Model;
 
@@ -23,7 +25,7 @@ namespace WindowsWorkStationDemo.ViewModel
         {
             _BackStatusStack = new Stack<MainWindowUIStatusModel>();
             _ForwardStatusStack = new Stack<MainWindowUIStatusModel>();
-            CurrentUIStatus = new MainWindowUIStatusModel();
+            _currentUIStatus = new MainWindowUIStatusModel();
             ViewStyleList = new List<string>
             {
                 "\uE8A9",
@@ -52,11 +54,11 @@ namespace WindowsWorkStationDemo.ViewModel
                 KindOfSortBy.Reserved,
                 KindOfSortBy.None
             };
+            Messenger.Default.Register<MainWindowUINotificationMsg>(this, (msg) => UpdateUI(msg));
         }
 
         #region Properties of Navigation stack
         const int MAX_LIST_SIZE = 15;
-        public MainWindowUIStatusModel CurrentStatus { get; set; }
 
         private Stack<MainWindowUIStatusModel> _BackStatusStack;
         public ObservableCollection<MainWindowUIStatusModel> BackStatusStack
@@ -91,13 +93,6 @@ namespace WindowsWorkStationDemo.ViewModel
         #endregion
 
         #region operation of Navigation Stack
-        public bool CanGoBack
-        { get
-            {
-                return _BackStatusStack.Count > 0;
-            }
-        }
-
         private RelayCommand _GoBack;
         /// <summary>
         /// Gets the GoBack.
@@ -114,16 +109,25 @@ namespace WindowsWorkStationDemo.ViewModel
 
         private void ExecuteGoBack()
         {
-            _ForwardStatusStack.Push(CurrentUIStatus);
+            _ForwardStatusStack.Push(new MainWindowUIStatusModel(CurrentUIStatus));
+            if (_ForwardStatusStack.Count == 1)
+            {
+                // After changed from 0 to 1, notify UI that we can go forward now.
+                GoForward.RaiseCanExecuteChanged();
+            }
+
             CurrentUIStatus = _BackStatusStack.Pop();
+            if (_BackStatusStack.Count == 0)
+            {
+                // After changed from 1 to 0, notify UI that we can't go back now.
+                GoBack.RaiseCanExecuteChanged();
+            }
         }
 
         private bool CanExecuteGoBack()
         {
-            return CanGoBack;
+            return _BackStatusStack.Count > 0;
         }
-
-        public bool CanGoForward { get { return _ForwardStatusStack.Count > 0; } }
 
         private RelayCommand _GoForward;
         /// <summary>
@@ -137,19 +141,39 @@ namespace WindowsWorkStationDemo.ViewModel
                     ?? (_GoForward = new RelayCommand(
                     () =>
                     {
-                        _BackStatusStack.Push(CurrentUIStatus);
+                        _BackStatusStack.Push(new MainWindowUIStatusModel(CurrentUIStatus));
+                        if (_BackStatusStack.Count == 1)
+                        {
+                            // After changed from 0 to 1, notify UI that we can go back now.
+                            GoBack.RaiseCanExecuteChanged();
+                        }
                         CurrentUIStatus = _ForwardStatusStack.Pop();
+                        if (_ForwardStatusStack.Count == 0)
+                        {
+                            // After changed from 1 to 0, notify UI that we can't go forward now.
+                            GoForward.RaiseCanExecuteChanged();
+                        }
                     }, () =>
                     {
-                        return CanGoForward;
+                        return _ForwardStatusStack.Count > 0;
                     }));
             }
         }
 
         void SaveChangedStatus()
         {
-            _BackStatusStack.Push(CurrentUIStatus);
-            _ForwardStatusStack.Clear();
+            _BackStatusStack.Push(new MainWindowUIStatusModel(CurrentUIStatus));
+            if (_BackStatusStack.Count == 1)
+            {
+                // After changed from 0 to 1, notify UI that we can go back now.
+                GoBack.RaiseCanExecuteChanged();
+            }
+
+            if (_ForwardStatusStack.Count > 0)
+            {
+                _ForwardStatusStack.Clear();
+                GoForward.RaiseCanExecuteChanged();
+            }
         }
         #endregion
 
@@ -180,12 +204,65 @@ namespace WindowsWorkStationDemo.ViewModel
         }
         #endregion
 
-        #region Current UI status properties
+        #region Current UI status
+        void UpdateUI(MainWindowUINotificationMsg msg)
+        {
+            if (msg == null)
+            {
+                return;
+            }
+
+            switch (msg.ChangedUIElement)
+            {
+                case ChangedUIElement.MutilpleUI:
+                    CurrentUIStatus = msg.NewValue as MainWindowUIStatusModel;
+                    break;
+                case ChangedUIElement.ViewObject:
+                    BrowseViewObjectKey = msg.NewValue as string;
+                    break;
+                case ChangedUIElement.ArrangeBy:
+                    break;
+                case ChangedUIElement.SortBy:
+                    break;
+                case ChangedUIElement.ViewStyle:
+                    break;
+            }
+        }
+        private void NavigationToNewPage(string newPageTitle)
+        {
+            var selectedViewObject = BrowseViewObjectFactory.Instance.FindBrowseViewObject(newPageTitle);
+            if (selectedViewObject == null || selectedViewObject.ClassType == null)
+            {
+                return;
+            }
+            BrowsingPage = (Page)System.Activator.CreateInstance(selectedViewObject.ClassType);
+        }
+
+        private Page _browsingPage = null;
+
         /// <summary>
-        /// The <see cref="BrowseViewStyle" /> property's name.
+        /// Sets and gets the BrowsingPage property.
+        /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public const string BrowseViewStylePropertyName = "BrowseViewStyle";
-        
+        public Page BrowsingPage
+        {
+            get
+            {
+                return _browsingPage;
+            }
+
+            set
+            {
+                if (_browsingPage == value)
+                {
+                    return;
+                }
+
+                _browsingPage = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Sets and gets the BrowseViewStyle property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -205,8 +282,9 @@ namespace WindowsWorkStationDemo.ViewModel
                 }
 
                 SaveChangedStatus();
+                Messenger.Default.Send(new MainWindowUINotificationMsg(ChangedUIElement.ViewStyle, CurrentUIStatus.BrowseViewStyle, value));
                 CurrentUIStatus.BrowseViewStyle = (BrowseViewStyle)value;
-                RaisePropertyChanged(BrowseViewStylePropertyName);
+                RaisePropertyChanged();
             }
         }
 
@@ -234,6 +312,7 @@ namespace WindowsWorkStationDemo.ViewModel
                 }
 
                 SaveChangedStatus();
+                Messenger.Default.Send(new MainWindowUINotificationMsg(ChangedUIElement.ArrangeBy, CurrentUIStatus.KindOfArrangeBy, value));
                 CurrentUIStatus.KindOfArrangeBy = value;
                 RaisePropertyChanged(KindOfArrangeByPropertyName);
             }
@@ -263,6 +342,7 @@ namespace WindowsWorkStationDemo.ViewModel
                 }
 
                 SaveChangedStatus();
+                Messenger.Default.Send(new MainWindowUINotificationMsg(ChangedUIElement.SortBy, CurrentUIStatus.KindOfSortBy, value));
                 CurrentUIStatus.KindOfSortBy = value;
                 RaisePropertyChanged(KindOfSortByPropertyName);
             }
@@ -292,44 +372,37 @@ namespace WindowsWorkStationDemo.ViewModel
                 }
 
                 SaveChangedStatus();
+                Messenger.Default.Send(new MainWindowUINotificationMsg(ChangedUIElement.SortBy, CurrentUIStatus.IsAscending, value));
                 CurrentUIStatus.IsAscending = value;
                 RaisePropertyChanged(IsAscendingPropertyName);
             }
         }
-
-        /// <summary>
-        /// The <see cref="KindOfViewMode" /> property's name.
-        /// </summary>
-        public const string KindOfViewModePropertyName = "KindOfViewMode";
-
+        
         /// <summary>
         /// Sets and gets the KindOfViewMode property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public KindOfViewMode KindOfViewMode
+        public int KindOfViewMode
         {
             get
             {
-                return CurrentUIStatus.KindOfViewMode;
+                return (int)CurrentUIStatus.KindOfViewMode;
             }
 
             set
             {
-                if (CurrentUIStatus.KindOfViewMode == value)
+                if ((int)CurrentUIStatus.KindOfViewMode == value)
                 {
                     return;
                 }
 
                 SaveChangedStatus();
-                CurrentUIStatus.KindOfViewMode = value;
-                RaisePropertyChanged(KindOfViewModePropertyName);
+                Messenger.Default.Send(new MainWindowUINotificationMsg(ChangedUIElement.ViewMode, CurrentUIStatus.KindOfViewMode, value));
+                CurrentUIStatus.KindOfViewMode = (KindOfViewMode)value;
+                RaisePropertyChanged();
             }
         }
-
-        /// <summary>
-        /// The <see cref="BrowseViewObjectKey" /> property's name.
-        /// </summary>
-        public const string BrowseViewObjectKeyPropertyName = "BrowseViewObjectKey";
+        
         /// <summary>
         /// Sets and gets the BrowseViewObjectKey property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -340,7 +413,6 @@ namespace WindowsWorkStationDemo.ViewModel
             {
                 return CurrentUIStatus.BrowseViewObjectKey;
             }
-
             set
             {
                 if (CurrentUIStatus.BrowseViewObjectKey == value)
@@ -348,12 +420,102 @@ namespace WindowsWorkStationDemo.ViewModel
                     return;
                 }
 
-                SaveChangedStatus();
+                // the viewObjectKey is null until the viewObject selected, skip the meaningless UI status
+                if (!string.IsNullOrEmpty(CurrentUIStatus.BrowseViewObjectKey))
+                { 
+                    SaveChangedStatus();
+                }
                 CurrentUIStatus.BrowseViewObjectKey = value;
-                RaisePropertyChanged(BrowseViewObjectKeyPropertyName);
+                NavigationToNewPage(CurrentUIStatus.BrowseViewObjectKey);
             }
         }
-        public MainWindowUIStatusModel CurrentUIStatus { get; private set; }
+
+        private MainWindowUIStatusModel _currentUIStatus;
+        public MainWindowUIStatusModel CurrentUIStatus {
+            get
+            {
+                return _currentUIStatus;
+            }
+            set
+            {
+                var msg = new MainWindowUINotificationMsg();
+                if (_currentUIStatus.BrowseViewStyle != value.BrowseViewStyle)
+                {
+                    msg.setMsg(ChangedUIElement.ViewStyle, _currentUIStatus.BrowseViewStyle, value.BrowseViewStyle);
+                    _currentUIStatus.BrowseViewStyle = value.BrowseViewStyle;
+                    RaisePropertyChanged(nameof(BrowseViewStyle));
+                }
+                if (_currentUIStatus.KindOfArrangeBy != value.KindOfArrangeBy)
+                {
+                    if (msg.Empty)
+                    {
+                        msg.setMsg(ChangedUIElement.ArrangeBy, _currentUIStatus.KindOfArrangeBy, value.KindOfArrangeBy);
+                    }
+                    else
+                    {
+                        msg.setMsg(ChangedUIElement.MutilpleUI, _currentUIStatus, value);
+                    }
+                    _currentUIStatus.KindOfArrangeBy = value.KindOfArrangeBy;
+                    RaisePropertyChanged(nameof(BrowseViewStyle));
+                }
+                if (_currentUIStatus.KindOfSortBy != value.KindOfSortBy)
+                {
+                    if (msg.Empty)
+                    {
+                        msg.setMsg(ChangedUIElement.SortBy, _currentUIStatus.KindOfSortBy, value.KindOfSortBy);
+                    }
+                    else
+                    {
+                        msg.setMsg(ChangedUIElement.MutilpleUI, _currentUIStatus, value);
+                    }
+                    _currentUIStatus.KindOfSortBy = value.KindOfSortBy;
+                    RaisePropertyChanged(KindOfSortByPropertyName);
+                }
+                if (_currentUIStatus.IsAscending != value.IsAscending)
+                {
+                    if (msg.Empty)
+                    {
+                        msg.setMsg(ChangedUIElement.SortBy, _currentUIStatus.IsAscending, value.IsAscending);
+                    }
+                    else
+                    {
+                        msg.setMsg(ChangedUIElement.MutilpleUI, _currentUIStatus, value);
+                    }
+                    _currentUIStatus.IsAscending = value.IsAscending;
+                    RaisePropertyChanged(IsAscendingPropertyName);
+                }
+                if (_currentUIStatus.KindOfViewMode != value.KindOfViewMode)
+                {
+                    if (msg.Empty)
+                    {
+                        msg.setMsg(ChangedUIElement.ViewMode, _currentUIStatus.KindOfViewMode, value.KindOfViewMode);
+                    }
+                    else
+                    {
+                        msg.setMsg(ChangedUIElement.MutilpleUI, _currentUIStatus, value);
+                    }
+                    _currentUIStatus.KindOfViewMode = value.KindOfViewMode;
+                    RaisePropertyChanged(nameof(KindOfViewMode));
+                }
+                if (_currentUIStatus.BrowseViewObjectKey != value.BrowseViewObjectKey)
+                {
+                    if (msg.Empty)
+                    {
+                        msg.setMsg(ChangedUIElement.ViewObject, _currentUIStatus.BrowseViewObjectKey, value.BrowseViewObjectKey);
+                    }
+                    else
+                    {
+                        msg.setMsg(ChangedUIElement.MutilpleUI, _currentUIStatus, value);
+                    }
+                    _currentUIStatus.BrowseViewObjectKey = value.BrowseViewObjectKey;
+                    NavigationToNewPage(CurrentUIStatus.BrowseViewObjectKey);
+                }
+                if (!msg.Empty)
+                {
+                    Messenger.Default.Send(msg);
+                }
+            }
+        }
 
         #endregion
     }

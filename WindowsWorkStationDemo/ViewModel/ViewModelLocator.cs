@@ -46,7 +46,7 @@ namespace WindowsWorkStationDemo.ViewModel
             SimpleIoc.Default.Register<MainWindowsUIStatusViewModel>();
         }
 
-        public BrowseViewObjectViewModel BrowseViewObject
+        public BrowseViewObjectViewModel BrowseViewObjectVM
         {
             get
             {

@@ -113,38 +113,7 @@ namespace WindowsWorkStationDemo
             MessageBox.Show("todo in future", "Message");
         }
     }
-
-    public class ScenarioBindingConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var s = value as Model.BrowseViewObject;
-            return ((s != null) && (parameter != null) && (bool.Parse((string)parameter))) ? s.Icon : s.Title;
-        }
-        
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return true;
-        }
-    }
-    public class ScenarioCallbackBindingConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var s = value as Model.BrowseViewObject;
-            if (s == null)
-                return Visibility.Collapsed;
-            if ((parameter == null) || (!bool.Parse((string)parameter)))
-                return (s.AddObject != null) ? Visibility.Visible : Visibility.Collapsed;
-            return s.AddObject;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return true;
-        }
-    }
-
+    
     public class BoolInverterConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

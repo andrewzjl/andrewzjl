@@ -9,68 +9,68 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="SmartModePage"
-      DataContext="{Binding BrowseViewObject,Source={StaticResource Locator}}">
+      DataContext="{Binding BrowseViewObjectVM,Source={StaticResource Locator}}">
 
     <Page.Resources>
         <!-- item template about how to show the BrowseViewObject in listBox -->
-        <DataTemplate x:Key="ListItemTemplate" DataType="{x:Type models:BrowseViewObject}">
-            <DockPanel>
-                <TextBlock Text="{Binding Path=Icon}" FontFamily="Segoe MDL2 Assets" Margin="10,0,10,0"/>
-                <TextBlock Text="{Binding Path=Title}" Margin="0,0,10,0"/>
-                <Button DockPanel.Dock="Right" Content="+" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"
-                                    Visibility="{Binding Path=Visibility}" Command="{Binding Path=AddObject}">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
-                            <!--<Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=Visibility}" Value="Collapsed">
-                                    <Setter Property="Command" Value="" />
-                                </DataTrigger>
-                            </Style.Triggers>-->
-                        </Style>
-                    </Button.Style>
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid>
-                                <Ellipse Fill="Red" />
-                                <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </DockPanel>
-        </DataTemplate>
+        <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemStyle" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Title}" Value="-">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="Template" >
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Separator IsHitTestVisible="False" HorizontalAlignment="Stretch" IsEnabled="False" Margin="-1,10,-1,0"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Icon}" Value="null">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <DockPanel IsEnabled="False" LastChildFill="True" IsHitTestVisible="False" Margin="10, 10, 0, 5" >
+                                    <TextBlock DockPanel.Dock="Left" IsHitTestVisible="False" HorizontalAlignment="Left" Text="{Binding Path=Title}" Style="{StaticResource SideBarTitleStyle}" IsEnabled="False"/>
+                                    <TextBlock IsEnabled="False"/>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
     <Grid>
         <Border Style="{StaticResource SeparatorBorderStyle}" Grid.Row="0">
             <DockPanel LastChildFill="True">
-                <!-- Enterprises panel -->
-                <StackPanel DockPanel.Dock="Top">
-                    <TextBlock Text="{DynamicResource ENTERPRISES}" Style="{StaticResource SideBarTitleStyle}" Margin="10, 10, 0, 0"/>
-                    <ListBox Margin="0,10,0,10" Name="EnterpriseListBox" ItemsSource="{Binding EnterpriseBrowseViewObjects}"
-                             ItemTemplate="{StaticResource ListItemTemplate}" BorderThickness="0">
-                        <!-- binding the event command with selection changed, avoid the code in background class -->
-                        <ie:Interaction.Triggers>
-                            <ie:EventTrigger EventName="SelectionChanged">
-                                <ie:InvokeCommandAction Command="{Binding SelectedViewObjectCommand}" CommandParameter="{Binding ElementName=EnterpriseListBox,Path=SelectedItem}" />
-                            </ie:EventTrigger>
-                        </ie:Interaction.Triggers>
-                    </ListBox>
-                </StackPanel>
-                <Separator DockPanel.Dock="Top" />
-                <!-- Documents panel -->
-                <StackPanel DockPanel.Dock="Top">
-                    <TextBlock Text="{DynamicResource DOCUMENTS}" Style="{StaticResource SideBarTitleStyle}" Margin="10, 10, 0, 0"/>
-                    <ListBox Margin="0,10,0,10" Name="DocumentsListBox" ItemsSource="{Binding DocumentsBrowseViewObjects}"
-                             ItemTemplate="{StaticResource ListItemTemplate}" BorderThickness="0">
-                        <!-- binding the event command with selection changed, avoid the code in background class -->
-                        <ie:Interaction.Triggers>
-                            <ie:EventTrigger EventName="SelectionChanged">
-                                <ie:InvokeCommandAction Command="{Binding SelectedViewObjectCommand}" CommandParameter="{Binding ElementName=DocumentsListBox,Path=SelectedItem}" />
-                            </ie:EventTrigger>
-                        </ie:Interaction.Triggers>
-                    </ListBox>
-                </StackPanel>
+                <ListBox DockPanel.Dock="Top" ItemsSource="{Binding BrowseViewObjects}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" BorderThickness="0"
+                         HorizontalContentAlignment="Left" Name="BrowseViewObjectListBox" SelectedItem="{Binding SelectedViewObject}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel Margin="0,5,0,5" LastChildFill="True" Name="ItemPanel">
+                                <TextBlock DockPanel.Dock="Left" Text="{Binding Path=Icon}" FontFamily="Segoe MDL2 Assets" Margin="10,0,10,0"/>
+                                <Button DockPanel.Dock="Right" Content="+" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"
+                                    Visibility="{Binding Path=Visibility}" Command="{Binding Path=AddObject}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+                                        </Style>
+                                    </Button.Style>
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Grid>
+                                                <Ellipse Fill="Blue" />
+                                                <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <TextBlock Text="{Binding Path=Title}" Margin="0,0,10,0"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </DockPanel>
         </Border>
     </Grid>

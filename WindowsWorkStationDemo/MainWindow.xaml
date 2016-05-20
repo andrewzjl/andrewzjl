@@ -95,8 +95,8 @@
 
                 <!-- Go ahead and back button -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,10,10,10">
-                    <Button Content="&#xE016;" Style="{StaticResource IconFontStyle}" Margin="0" Click="Back_Browsing" IsEnabled="{Binding ElementName=browsingFrame, Path=CanGoBack, Converter={StaticResource BoolInvertConverter}}" />
-                    <Button Content="&#xE017;" Style="{StaticResource IconFontStyle}" Margin="0" Click="Forward_Browsing" IsEnabled="{Binding ElementName=browsingFrame, Path=CanGoForward, Converter={StaticResource BoolInvertConverter}}"/>
+                    <Button Content="&#xE016;" Style="{StaticResource IconFontStyle}" Margin="0" Command="{Binding GoBack}"/>
+                    <Button Content="&#xE017;" Style="{StaticResource IconFontStyle}" Margin="0" Command="{Binding GoForward}"/>
                 </StackPanel>
 
                 <!-- view tool bar -->
@@ -175,8 +175,8 @@
 
             <!-- left function panel -->
             <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource SeparatorBorderStyle}">
-                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Center" TabStripPlacement="Bottom">
-                    <TabItem Header="&#xE14C;" FontFamily="Segoe MDL2 Assets" IsSelected="True">
+                <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Center" TabStripPlacement="Bottom" SelectedIndex="{Binding KindOfViewMode}">
+                    <TabItem Header="&#xE14C;" FontFamily="Segoe MDL2 Assets">
                         <Frame x:Name="sideBarFrame" Source="View/SmartModePage.xaml"/>
                     </TabItem>
                     <TabItem Header="&#xE12F;" FontFamily="Segoe MDL2 Assets">
@@ -192,7 +192,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Frame Name="browsingFrame" NavigationUIVisibility="Hidden"/>
+                    <Frame Name="browsingFrame" NavigationUIVisibility="Hidden" Content="{Binding Path=BrowsingPage, Mode=TwoWay}"/>
                     <StackPanel x:Name="pathBar" Grid.Row="1" Visibility="Hidden" Orientation="Horizontal"/>
                 </Grid>
             </Border>

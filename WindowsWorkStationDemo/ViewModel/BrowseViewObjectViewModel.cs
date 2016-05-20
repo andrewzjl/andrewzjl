@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using WindowsWorkStationDemo.Model;
@@ -14,56 +15,56 @@ namespace WindowsWorkStationDemo.ViewModel
     /// </summary>
     public class BrowseViewObjectViewModel : ViewModelBase
     {
-        public ObservableCollection<BrowseViewObject> EnterpriseBrowseViewObjects { get; set; }
-        
-        public ObservableCollection<BrowseViewObject> DocumentsBrowseViewObjects { get; set; }
+        public ObservableCollection<BrowseViewObject> BrowseViewObjects
+        {
+            get
+            {
+                return new ObservableCollection<BrowseViewObject>(BrowseViewObjectFactory.Instance.BrowseViewObjects);
+            }
+        }
 
+        private BrowseViewObject _selectedViewObject;
+        public BrowseViewObject SelectedViewObject {
+            get { return _selectedViewObject; }
+            set
+            {
+                if (_selectedViewObject == value)
+                {
+                    return;
+                }
+
+                _selectedViewObject = value;
+                RaisePropertyChanged();
+
+                // send the Broadcast that object changed
+                var msg = new MainWindowUINotificationMsg { ChangedUIElement = ChangedUIElement.ViewObject, NewValue = _selectedViewObject.Title };
+                msg.Sender = this;
+                Messenger.Default.Send(msg);
+            }
+        }
         /// <summary>
         /// Initializes a new instance of the BrowseViewObjectViewModel class.
         /// </summary>
         public BrowseViewObjectViewModel()
         {
-            EnterpriseBrowseViewObjects = new ObservableCollection<BrowseViewObject>
+            if (BrowseViewObjects.Count > 1)
             {
-                new BrowseViewObject() { Title = "Environments", ClassType = typeof(View.EnvironmentsPage), Icon = "\uE2B0" },
-                new BrowseViewObject() { Title = "Applications", ClassType = typeof(View.ApplicationsPage), Icon = "\uE74C" }
-            };
-
-            DocumentsBrowseViewObjects = new ObservableCollection<BrowseViewObject>
-            {
-                new BrowseViewObject() { Title = "Dossiers", ClassType = typeof(View.DossiersPage), Icon = "\uE8EC" },
-                new BrowseViewObject() { Title = "Dashboards", ClassType = typeof(View.DashboardsPage), Icon = "\uEC25", AddObject = View.MSTRObjectHelper.Instance.addNewDashboard},
-                new BrowseViewObject() { Title = "Charts", ClassType = typeof(View.ChartsPage), Icon = "\uE12A" },
-                new BrowseViewObject() { Title = "Maps", ClassType = typeof(View.MapsPage), Icon = "\uEB49" },
-                new BrowseViewObject() { Title = "Grids", ClassType = typeof(View.GridsPage), Icon = "\uE80A" },
-                new BrowseViewObject() { Title = "Datasets", ClassType = typeof(View.DatasetsPage), Icon = "\uE81E" }
-            };
+                SelectedViewObject = BrowseViewObjects[1];
+            }
+            Messenger.Default.Register<MainWindowUINotificationMsg>(this, (msg) => RefreshPage(msg));
         }
 
-        private RelayCommand<BrowseViewObject> _SelectViewObjectCommand;
-
-        /// <summary>
-        /// Gets the SelectedViewObjectCommand.
-        /// </summary>
-        public RelayCommand<BrowseViewObject> SelectedViewObjectCommand
+        private void RefreshPage(MainWindowUINotificationMsg msg)
         {
-            get
+            if (msg == null || (msg.Sender == this))
             {
-                return _SelectViewObjectCommand
-                    ?? (_SelectViewObjectCommand = new RelayCommand<BrowseViewObject>(
-                    (SelectedItem) =>
-                    {
-                        // Clear the status block when navigating scenarios.
-                        MainWindow.Current.NotifyUser(string.Empty, MainWindow.NotifyType.StatusMessage);
+                return;
+            }
 
-                        var s = SelectedItem as BrowseViewObject;
-                        if (s != null)
-                        {
-                            MainWindow.Current.NotifyUser(string.Format("{0} - {1}", "workstation", s.Title), MainWindow.NotifyType.TitleChanged);
-                            var newPage = System.Activator.CreateInstance(s.ClassType);
-                            MainWindow.Current.browsingFrame.Navigate(newPage);
-                        }
-                    }));
+            if (msg.ChangedUIElement == ChangedUIElement.ViewObject)
+            {
+                _selectedViewObject = BrowseViewObjectFactory.Instance.FindBrowseViewObject(msg.NewValue as string);
+                RaisePropertyChanged(nameof(SelectedViewObject));
             }
         }
     }

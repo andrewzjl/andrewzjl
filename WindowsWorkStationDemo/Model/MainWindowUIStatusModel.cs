@@ -29,6 +29,16 @@ namespace WindowsWorkStationDemo.Model
             BrowseViewObjectKey = viewObject;
         }
 
+        public MainWindowUIStatusModel(MainWindowUIStatusModel currentUIStatus)
+        {
+            BrowseViewStyle = currentUIStatus.BrowseViewStyle;
+            KindOfArrangeBy = currentUIStatus.KindOfArrangeBy;
+            KindOfSortBy = currentUIStatus.KindOfSortBy; 
+            IsAscending = currentUIStatus.IsAscending;
+            KindOfViewMode = currentUIStatus.KindOfViewMode;
+            BrowseViewObjectKey = currentUIStatus.BrowseViewObjectKey;
+        }
+
         public BrowseViewStyle BrowseViewStyle { get; set; }
 
         public KindOfArrangeBy KindOfArrangeBy { get; set; }
