@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using WindowsWorkStationDemo.Model;
@@ -55,6 +56,7 @@ namespace WindowsWorkStationDemo.ViewModel
                 KindOfSortBy.None
             };
             Messenger.Default.Register<MainWindowUINotificationMsg>(this, (msg) => UpdateUI(msg));
+            Title = App.GetResource("ApplicationName") as string;
         }
 
         #region Properties of Navigation stack
@@ -220,7 +222,8 @@ namespace WindowsWorkStationDemo.ViewModel
                 case ChangedUIElement.ViewObject:
                     BrowseViewObjectKey = msg.NewValue as string;
                     break;
-                case ChangedUIElement.ArrangeBy:
+                case ChangedUIElement.StatusInfo:
+                    StatusMessage = msg.NewValue as string;
                     break;
                 case ChangedUIElement.SortBy:
                     break;
@@ -235,7 +238,10 @@ namespace WindowsWorkStationDemo.ViewModel
             {
                 return;
             }
+
             BrowsingPage = (Page)System.Activator.CreateInstance(selectedViewObject.ClassType);
+            Title = string.Format("{0} - {1}", App.GetResource("ApplicationName") as string, newPageTitle);
+            StatusMessage = "";
         }
 
         private Page _browsingPage = null;
@@ -259,6 +265,46 @@ namespace WindowsWorkStationDemo.ViewModel
                 }
 
                 _browsingPage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                if (_title == value)
+                {
+                    return;
+                }
+                _title = value;
+                RaisePropertyChanged(nameof(Title));
+            }
+        }
+
+        private string _statusMessage = "";
+
+        /// <summary>
+        /// Sets and gets the StatusMessage property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string StatusMessage
+        {
+            get
+            {
+                return _statusMessage;
+            }
+            set
+            {
+                if (_statusMessage == value)
+                {
+                    return;
+                }
+
+                _statusMessage = value;
                 RaisePropertyChanged();
             }
         }

@@ -56,6 +56,8 @@ namespace WindowsWorkStationDemo.ViewModel
             var dashboard = new Model.DashboardInfo();
             dashboard.Name = dashboardName;
             dashboards.Add(dashboard);
+            var barItem = new BrowseViewObject() { Title = dashboardName, ClassType = typeof(View.DatasetsPage), Icon = "\uE81E" };
+            BrowseViewObjectFactory.Instance.register(barItem);
             return true;
         }
 

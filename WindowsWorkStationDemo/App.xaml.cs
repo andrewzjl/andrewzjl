@@ -13,5 +13,17 @@ namespace WindowsWorkStationDemo
     /// </summary>
     public partial class App : Application
     {
+        internal static object GetResource(string resourceName)
+        {
+            try
+            {
+                return Current.FindResource(resourceName);
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
     }
 }

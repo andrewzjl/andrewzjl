@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:WindowsWorkStationDemo"
         xmlns:src="clr-namespace:WindowsWorkStationDemo;assembly=WindowsWorkStationDemo"
         mc:Ignorable="d"
-        Title="WorkStation" Height="640" Width="732" MinWidth="732" MinHeight="300"
-        DataContext="{Binding MainWindowsUIStatus,Source={StaticResource Locator}}">
+        Height="640" Width="732" MinWidth="732" MinHeight="300"
+        DataContext="{Binding MainWindowsUIStatus,Source={StaticResource Locator}}"
+        Title="{Binding Title}" >
     <Window.Resources>
         <Style TargetType="ButtonBase" x:Key="IconFontStyle">
             <Setter Property="FontSize" Value="12" />
@@ -42,7 +43,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <local:BoolInverterConverter x:Key="BoolInvertConverter" />
     </Window.Resources>
 
     <Grid>
@@ -198,8 +198,17 @@
             </Border>
 
             <!-- bottom status panel -->
-            <Border Name="StatusBorder" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource SeparatorBorderStyle}">
-                <TextBlock Name="statusBar" Text="status information" HorizontalAlignment="Center" />
+            <Border Name="StatusBorder" Grid.Row="2" Grid.ColumnSpan="2">
+                <TextBlock Name="statusBar" Text="{Binding StatusMessage}" HorizontalAlignment="Center"/>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}" BasedOn="{StaticResource SeparatorBorderStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding StatusMessage}" Value="">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
             </Border>
         </Grid>
     </Grid>

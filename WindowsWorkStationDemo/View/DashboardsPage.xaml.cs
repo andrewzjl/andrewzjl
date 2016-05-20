@@ -34,10 +34,12 @@ namespace WindowsWorkStationDemo.View
         {
             var listBox = sender as ListView;
             int Count = listBox.SelectedItems.Count;
-            if (Count == 0)
-                MainWindow.Current.NotifyUser(string.Empty, MainWindow.NotifyType.StatusMessage);
-            else
-                MainWindow.Current.NotifyUser(string.Format("{0} of {1} items selected", Count, listBox.Items.Count), MainWindow.NotifyType.StatusMessage);
+            var statusUpdateMsg = new Model.MainWindowUINotificationMsg { ChangedUIElement = Model.ChangedUIElement.StatusInfo, NewValue = ""};
+            if (Count > 0)
+            {
+                statusUpdateMsg.NewValue = string.Format("{0} of {1} items selected", Count, listBox.Items.Count);
+            }
+            Messenger.Default.Send(statusUpdateMsg);
 
             // send msg to show the dashboard info
             if (Count == 1)
@@ -103,7 +105,7 @@ namespace WindowsWorkStationDemo.View
             get
             {
                 return _addNewDashboard ?? (_addNewDashboard = new RelayCommand(()=> {
-                    MainWindow.Current.NotifyUser(string.Empty, MainWindow.NotifyType.StatusMessage);
+                    Messenger.Default.Send(new Model.MainWindowUINotificationMsg(Model.ChangedUIElement.StatusInfo, null, ""));
                     ViewModel.DashboardsViewModel.Instance.AddNewDashboard("new add " + (index++).ToString());
                 }));
             }

@@ -42,6 +42,7 @@ namespace WindowsWorkStationDemo.Model
         SortBy,
         ViewMode,
         ViewObject,
+        StatusInfo,
         MutilpleUI
     }
 }

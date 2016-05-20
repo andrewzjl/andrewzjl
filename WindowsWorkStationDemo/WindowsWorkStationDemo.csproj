@@ -116,7 +116,6 @@
     <Compile Include="View\SmartModePage.xaml.cs">
       <DependentUpon>SmartModePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ViewConfigure.cs" />
     <Page Include="Strings\en-US\Gui.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
