@@ -1,4 +1,5 @@
-﻿<Page x:Class="WindowsWorkStationDemo.View.ChartsPage"
+﻿<view:BasePage x:Class="WindowsWorkStationDemo.View.ChartsPage"
+      xmlns:view="clr-namespace:WindowsWorkStationDemo.View"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,6 +10,16 @@
       Title="ChartsPage">
 
     <Grid>
-        <TextBlock Text="this is Charts. TODO:" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="0" Name="DashBoardsListView" ItemsSource="{Binding BrowsingObjects}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
-</Page>
+</view:BasePage>

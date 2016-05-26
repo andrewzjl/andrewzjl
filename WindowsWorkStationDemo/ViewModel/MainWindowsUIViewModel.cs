@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Common.Logging;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
@@ -19,11 +20,13 @@ namespace WindowsWorkStationDemo.ViewModel
     /// </summary>
     public class MainWindowsUIStatusViewModel : ViewModelBase
     {
+        static ILog Log;
         /// <summary>
         /// Initializes a new instance of the MainWindowsUIViewModel class.
         /// </summary>
         public MainWindowsUIStatusViewModel()
         {
+            Log = LogManager.GetLogger(GetType().FullName);
             _BackStatusStack = new Stack<MainWindowUIStatusModel>();
             _ForwardStatusStack = new Stack<MainWindowUIStatusModel>();
             _currentUIStatus = new MainWindowUIStatusModel();
@@ -231,6 +234,7 @@ namespace WindowsWorkStationDemo.ViewModel
                     break;
             }
         }
+        private List<BaseBrowseViewModel> _testRefAddress = new List<BaseBrowseViewModel>();
         private void NavigationToNewPage(string newPageTitle)
         {
             var selectedViewObject = BrowseViewObjectFactory.Instance.FindBrowseViewObject(newPageTitle);
@@ -240,6 +244,19 @@ namespace WindowsWorkStationDemo.ViewModel
             }
 
             BrowsingPage = (Page)System.Activator.CreateInstance(selectedViewObject.ClassType);
+
+            BaseBrowseViewModel dataContext = ViewModelLocator.BrowseViewModel(selectedViewObject.Title);
+            foreach (var item in _testRefAddress)
+            {
+                Log.Debug(item.GetHashCode());
+                if (item == dataContext)
+                {
+                    Log.InfoFormat("there is a duplicate {0} in list now.", dataContext.GetType().FullName);
+                }
+            }
+            _testRefAddress.Add(dataContext);
+
+            BrowsingPage.DataContext = dataContext;
             Title = string.Format("{0} - {1}", App.GetResource("ApplicationName") as string, newPageTitle);
             StatusMessage = "";
         }
@@ -502,7 +519,7 @@ namespace WindowsWorkStationDemo.ViewModel
                         msg.setMsg(ChangedUIElement.MutilpleUI, _currentUIStatus, value);
                     }
                     _currentUIStatus.KindOfArrangeBy = value.KindOfArrangeBy;
-                    RaisePropertyChanged(nameof(BrowseViewStyle));
+                    RaisePropertyChanged(nameof(KindOfArrangeBy));
                 }
                 if (_currentUIStatus.KindOfSortBy != value.KindOfSortBy)
                 {

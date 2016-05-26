@@ -18,7 +18,7 @@ namespace WindowsWorkStationDemo.View
     /// <summary>
     /// Interaction logic for MapsPage.xaml
     /// </summary>
-    public partial class MapsPage : Page
+    public partial class MapsPage : BasePage
     {
         public MapsPage()
         {

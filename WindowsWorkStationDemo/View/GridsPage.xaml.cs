@@ -18,7 +18,7 @@ namespace WindowsWorkStationDemo.View
     /// <summary>
     /// Interaction logic for GridsPage.xaml
     /// </summary>
-    public partial class GridsPage : Page
+    public partial class GridsPage : BasePage
     {
         public GridsPage()
         {

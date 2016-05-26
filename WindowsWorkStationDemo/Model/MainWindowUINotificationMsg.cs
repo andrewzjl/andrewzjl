@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsWorkStationDemo.Model
 {
-    class MainWindowUINotificationMsg
+    public class MainWindowUINotificationMsg
     {
         public MainWindowUINotificationMsg()
         {

@@ -1,8 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=mscorlib">
-    <s:String x:Key="ApplicationName">WorkStation</s:String>
-    <s:String x:Key="ENTERPRISES">ENTERPRISES</s:String>
-    <s:String x:Key="DOCUMENTS">DOCUMENTS</s:String>
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xmlns:utils="clr-namespace:WindowsWorkStationDemo.Utility">
+    <x:Static x:Key="ApplicationName" Member="utils:Constants.ApplicationName"/>
+    <x:Static x:Key="ENTERPRISES" Member="utils:Constants.ENTERPRISES"/>
+    <x:Static x:Key="DOCUMENTS" Member="utils:Constants.DOCUMENTS"/>
 
+    <x:Static x:Key="Environments" Member="utils:Constants.Environments" />
+    <x:Static x:Key="Applications" Member="utils:Constants.Applications" />
+    <x:Static x:Key="SeparatorToken" Member="utils:Constants.SeparatorToken" />
+    <x:Static x:Key="Dossiers" Member="utils:Constants.Dossiers" />
+    <x:Static x:Key="Dashboards" Member="utils:Constants.Dashboards" />
+    <x:Static x:Key="Charts" Member="utils:Constants.Charts" />
+    <x:Static x:Key="Maps" Member="utils:Constants.Maps" />
+    <x:Static x:Key="Grids" Member="utils:Constants.Grids" />
+    <x:Static x:Key="Datasets" Member="utils:Constants.Datasets" />
 </ResourceDictionary>

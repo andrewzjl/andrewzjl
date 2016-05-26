@@ -15,6 +15,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using WindowsWorkStationDemo.Utility;
 
 namespace WindowsWorkStationDemo.ViewModel
 {
@@ -44,6 +45,14 @@ namespace WindowsWorkStationDemo.ViewModel
 
             SimpleIoc.Default.Register<BrowseViewObjectViewModel>();
             SimpleIoc.Default.Register<MainWindowsUIStatusViewModel>();
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new BaseBrowseViewModel(); }, Constants.Environments);
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new BaseBrowseViewModel(); }, Constants.Applications);
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new BaseBrowseViewModel(); }, Constants.Dossiers);
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new DashboardsViewModel(); }, Constants.Dashboards);
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new ChartsBrowseViewModel(); }, Constants.Charts);
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new BaseBrowseViewModel(); }, Constants.Maps);
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new BaseBrowseViewModel(); }, Constants.Grids);
+            SimpleIoc.Default.Register<BaseBrowseViewModel>(() => { return new BaseBrowseViewModel(); }, Constants.Datasets);
         }
 
         public BrowseViewObjectViewModel BrowseViewObjectVM
@@ -60,6 +69,11 @@ namespace WindowsWorkStationDemo.ViewModel
             {
                 return ServiceLocator.Current.GetInstance<MainWindowsUIStatusViewModel>();
             }
+        }
+
+        public static BaseBrowseViewModel BrowseViewModel(string BrowseObjectKey)
+        {
+            return ServiceLocator.Current.GetInstance<BaseBrowseViewModel>(BrowseObjectKey);
         }
         
         public static void Cleanup()

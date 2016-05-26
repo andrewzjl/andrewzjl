@@ -51,7 +51,7 @@
                             <DockPanel Margin="0,5,0,5" LastChildFill="True" Name="ItemPanel">
                                 <TextBlock DockPanel.Dock="Left" Text="{Binding Path=Icon}" FontFamily="Segoe MDL2 Assets" Margin="10,0,10,0"/>
                                 <Button DockPanel.Dock="Right" Content="+" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"
-                                    Visibility="{Binding Path=Visibility}" Command="{Binding Path=AddObject}">
+                                    Visibility="{Binding Path=AddBtnVisibility}" Command="{Binding Path=AddObject}">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />

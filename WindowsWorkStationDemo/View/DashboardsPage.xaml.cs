@@ -22,12 +22,11 @@ namespace WindowsWorkStationDemo.View
     /// <summary>
     /// Interaction logic for DashboardsPage.xaml
     /// </summary>
-    public partial class DashboardsPage : Page
+    public partial class DashboardsPage : BasePage
     {
         public DashboardsPage()
         {
             InitializeComponent();
-            DataContext = ViewModel.DashboardsViewModel.Instance;
         }
 
         private void selection_changed(object sender, SelectionChangedEventArgs e)
@@ -80,35 +79,6 @@ namespace WindowsWorkStationDemo.View
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return true;
-        }
-    }
-
-    public sealed partial class MSTRObjectHelper
-    {
-        #region private fields
-        private static MSTRObjectHelper instance;
-        #endregion
-        public static MSTRObjectHelper Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new MSTRObjectHelper();
-
-                return instance;
-            }
-        }
-        private RelayCommand _addNewDashboard;
-        static int index = 0;
-        public ICommand addNewDashboard
-        {
-            get
-            {
-                return _addNewDashboard ?? (_addNewDashboard = new RelayCommand(()=> {
-                    Messenger.Default.Send(new Model.MainWindowUINotificationMsg(Model.ChangedUIElement.StatusInfo, null, ""));
-                    ViewModel.DashboardsViewModel.Instance.AddNewDashboard("new add " + (index++).ToString());
-                }));
-            }
         }
     }
 }

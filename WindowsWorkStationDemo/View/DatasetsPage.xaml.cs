@@ -18,7 +18,7 @@ namespace WindowsWorkStationDemo.View
     /// <summary>
     /// Interaction logic for DatasetsPage.xaml
     /// </summary>
-    public partial class DatasetsPage : Page
+    public partial class DatasetsPage : BasePage
     {
         public DatasetsPage()
         {

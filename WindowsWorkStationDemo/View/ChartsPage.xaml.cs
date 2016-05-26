@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WindowsWorkStationDemo.Model;
 
 namespace WindowsWorkStationDemo.View
 {
     /// <summary>
     /// Interaction logic for ChartsPage.xaml
     /// </summary>
-    public partial class ChartsPage : Page
+    public partial class ChartsPage : BasePage
     {
-        public ChartsPage()
+        public ChartsPage() : base()
         {
             InitializeComponent();
         }

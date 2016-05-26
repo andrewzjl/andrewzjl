@@ -18,7 +18,7 @@ namespace WindowsWorkStationDemo.View
     /// <summary>
     /// Interaction logic for EnvironmentsPage.xaml
     /// </summary>
-    public partial class EnvironmentsPage : Page
+    public partial class EnvironmentsPage : BasePage
     {
         public EnvironmentsPage()
         {

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowsWorkStationDemo"
+        xmlns:vm="clr-namespace:WindowsWorkStationDemo.ViewModel"
         xmlns:src="clr-namespace:WindowsWorkStationDemo;assembly=WindowsWorkStationDemo"
         mc:Ignorable="d"
         Height="640" Width="732" MinWidth="732" MinHeight="300"
@@ -25,7 +26,7 @@
                         <DockPanel LastChildFill="True">
                             <CheckBox Margin="5,0,5,0" BorderThickness="0" DockPanel.Dock="Left" IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}"/>
                             <TextBlock DockPanel.Dock="Left" Text="{Binding Converter={StaticResource EnumToStringConverter}}" HorizontalAlignment="Right"
-                                       Foreground="{Binding ForegroundColor}"/>
+                                       Foreground="{Binding DataContext.ForegroundColor, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Window}}}"/>
                             <TextBlock />
                         </DockPanel>
                     </ControlTemplate>
@@ -43,6 +44,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <vm:MSTRObjectHelper x:Key="ObjectHelper" />
     </Window.Resources>
 
     <Grid>
@@ -53,7 +55,7 @@
         <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="New">
-                    <MenuItem Header="Dashboard" Click="new_dashboard" />
+                    <MenuItem Header="{DynamicResource Dashboards}" Command="{Binding Source={StaticResource ObjectHelper}, Path=Instance.CreateObjectCommand}" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Exit" Click="Exit_Application"/>
@@ -192,7 +194,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Frame Name="browsingFrame" NavigationUIVisibility="Hidden" Content="{Binding Path=BrowsingPage, Mode=TwoWay}"/>
+                    <Frame Name="browsingFrame" NavigationUIVisibility="Hidden" Navigated="Navigated_RemoveBackEntry" Content="{Binding Path=BrowsingPage, Mode=TwoWay}"/>
                     <StackPanel x:Name="pathBar" Grid.Row="1" Visibility="Hidden" Orientation="Horizontal"/>
                 </Grid>
             </Border>

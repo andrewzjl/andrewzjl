@@ -21,29 +21,20 @@ namespace WindowsWorkStationDemo
     /// </summary>
     public partial class MainWindow : Window
     {
-        // This is a static public property that allows downstream pages to get a handle to the MainPage instance
-        // in order to call methods that are in this class.
-        public static MainWindow Current;
-
-        public string comboboxItemForeground
-        {
-            get { return "black"; }
-        }
         public MainWindow()
         {
             InitializeComponent();
-
-            Current = this;
         }
         
         private void Exit_Application(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
-        private void new_dashboard(object sender, RoutedEventArgs e)
+        
+        private void Navigated_RemoveBackEntry(object sender, NavigationEventArgs e)
         {
-            MessageBox.Show("todo in future", "Message");
+            Frame frame = sender as Frame;
+            frame.NavigationService.RemoveBackEntry();
         }
     }
 }

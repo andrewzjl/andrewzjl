@@ -18,7 +18,7 @@ namespace WindowsWorkStationDemo.View
     /// <summary>
     /// Interaction logic for DossiersPage.xaml
     /// </summary>
-    public partial class DossiersPage : Page
+    public partial class DossiersPage : BasePage
     {
         public DossiersPage()
         {
