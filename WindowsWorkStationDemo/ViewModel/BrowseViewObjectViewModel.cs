@@ -175,7 +175,7 @@ namespace WindowsWorkStationDemo.ViewModel
                     {
                         command.Execute(null);
                     }
-                }); );
+                }, (s)=> { return true; }));
             }
         }
         public ICommand CreateNewObject(string objectKey)

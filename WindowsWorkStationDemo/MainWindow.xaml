@@ -55,7 +55,7 @@
         <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="New">
-                    <MenuItem Header="{DynamicResource Dashboards}" Command="{Binding Source={StaticResource ObjectHelper}, Path=Instance.CreateObjectCommand}" />
+                    <MenuItem Header="{DynamicResource Dashboards}" Command="{Binding Source={StaticResource ObjectHelper}, Path=Instance.CreateObjectCommand}" CommandParameter="{DynamicResource Dashboards}" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Exit" Click="Exit_Application"/>
