@@ -28,7 +28,7 @@ namespace LeetCodePractise.ViewModel
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
-        public ViewModelLocator()
+        static  ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
@@ -39,6 +39,7 @@ namespace LeetCodePractise.ViewModel
             SimpleIoc.Default.Register<IntegerToRomanViewModel>(true);
             SimpleIoc.Default.Register<RemoveLastNthNodeViewModel>(true);
             SimpleIoc.Default.Register<MergeTwoSortedListsViewModel>(true);
+            SimpleIoc.Default.Register<LongestCommonPrefixViewModel>(true);
             SimpleIoc.Default.Register<LongestSubstringWithoutRepeatViewModel>(true);
             SimpleIoc.Default.Register<RegularExpressionMatchingViewModel>(true);
             SimpleIoc.Default.Register<EditDistanceCalculatorViewModel>(true);

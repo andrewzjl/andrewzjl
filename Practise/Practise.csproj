@@ -80,6 +80,8 @@
     <Compile Include="Model\TestRecord.cs" />
     <Compile Include="Solutions\IntegerToRoman\IntegerToRoman.cs" />
     <Compile Include="Solutions\IntegerToRoman\IntegerToRomanViewModel.cs" />
+    <Compile Include="Solutions\LongestCommonPrefix\LongestCommonPrefix.cs" />
+    <Compile Include="Solutions\LongestCommonPrefix\LongestCommonPrefixViewModel.cs" />
     <Compile Include="Solutions\LongestSubstringWithoutRepeat\LongestSubstringWithoutRepeat.cs" />
     <Compile Include="Solutions\LongestSubstringWithoutRepeat\LongestSubstringWithoutRepeatViewModel.cs" />
     <Compile Include="Solutions\EditDistanceCalculator\EditDistanceCalculator.cs" />

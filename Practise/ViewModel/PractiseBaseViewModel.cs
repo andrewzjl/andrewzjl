@@ -13,6 +13,12 @@ using System.Threading.Tasks;
 
 namespace LeetCodePractise.ViewModel
 {
+    /// <summary>
+    /// The base view model for all the solutions of algorithm
+    /// </summary>
+    /// <typeparam name="TestType">The type of the est type.</typeparam>
+    /// <typeparam name="ResultType">The type of the esult type.</typeparam>
+    /// <seealso cref="GalaSoft.MvvmLight.ViewModelBase" />
     abstract public class PractiseBaseViewModel<TestType, ResultType> : ViewModelBase
     {
         public PractiseBaseViewModel()

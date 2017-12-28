@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LeetCodePractise"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" SizeToContent="Height" Width="525">
     <Window.Resources>
         <Style TargetType="{x:Type ListBoxItem}">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -14,7 +14,7 @@
     </Window.Resources>
     <StackPanel VerticalAlignment="Center" DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
         <Button Click="PreorderTreeVerify_Click">PreorderTreeVerify</Button>
-        <ListBox ItemsSource="{Binding SolutionList}">
+        <ListBox ItemsSource="{Binding SolutionList}" MaxHeight="600" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
