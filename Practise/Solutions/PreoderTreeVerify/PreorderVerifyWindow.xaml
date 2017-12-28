@@ -1,0 +1,15 @@
+﻿<Window x:Class="LeetCodePractise.Solutions.PreoderTreeVerify.PreorderVerifyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LeetCodePractise.Solutions.PreoderTreeVerify"
+        mc:Ignorable="d"
+        Title="PreorderVerifyWindow" Height="300" Width="300">
+    <StackPanel VerticalAlignment="Center">
+        <TextBlock Text="Input the test string, such as 9,3,4,#,#,1,#,#,2,#,6,#,#"/>
+        <TextBox Name="TestString" />
+        <Button Click="Button_Click">Run Test</Button>
+        <TextBlock Name="TestResult" />
+    </StackPanel>
+</Window>
