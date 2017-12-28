@@ -1,0 +1,5 @@
+C:\Users\Andrew\Github\andrewzjl\CodedUITestProject1\bin\Debug\CodedUITestProject1.dll
+C:\Users\Andrew\Github\andrewzjl\CodedUITestProject1\bin\Debug\CodedUITestProject1.pdb
+C:\Users\Andrew\Github\andrewzjl\CodedUITestProject1\obj\Debug\CodedUITestProject1.csprojResolveAssemblyReference.cache
+C:\Users\Andrew\Github\andrewzjl\CodedUITestProject1\obj\Debug\CodedUITestProject1.dll
+C:\Users\Andrew\Github\andrewzjl\CodedUITestProject1\obj\Debug\CodedUITestProject1.pdb
