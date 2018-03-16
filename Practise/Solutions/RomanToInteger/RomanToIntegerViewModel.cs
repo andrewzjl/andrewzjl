@@ -21,7 +21,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, int>("CCVII", 207),
             new KeyValuePair<string, int>("MLXVI", 1066),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "RomanToInteger";
             Requirement = "Given a roman numeral, convert it to an integer.";

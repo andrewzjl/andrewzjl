@@ -10,7 +10,7 @@ namespace LeetCodePractise.Solutions
 {
     public class StringToIntViewModel : PractiseBaseViewModel<string, int>
     {
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             var testCases = new List<KeyValuePair<string, int>> {
                 new KeyValuePair<string, int>("123",123),

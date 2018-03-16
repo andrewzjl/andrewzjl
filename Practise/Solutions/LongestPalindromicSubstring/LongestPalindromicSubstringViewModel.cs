@@ -22,7 +22,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, string>("babaddtattarrattatddetartrateedredividerb", "ddtattarrattatdd"),
             new KeyValuePair<string, string>("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "LongestPalindromicSubstring";
             Requirement = "Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.";

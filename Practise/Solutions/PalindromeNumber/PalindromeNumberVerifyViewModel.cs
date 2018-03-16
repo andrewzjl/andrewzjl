@@ -31,7 +31,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<int, bool>(10101, true),
             new KeyValuePair<int, bool>(10001, true),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "PalindromeNumberVerify";
             Requirement = "Determine whether an integer is a palindrome. Do this without extra space.";

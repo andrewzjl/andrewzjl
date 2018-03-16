@@ -38,7 +38,7 @@ namespace LeetCodePractise.Solutions
            new KeyValuePair<string, bool>("aaaaaaaaaaaaab\na*a*a*a*a*a*a*a*a*a*a.*a.*b.*.*c", false),
            new KeyValuePair<string, bool>("aaaaaaaaaaaaab\na*a*a*a*a*a*a*a*a*a*b*c*d*e*h*.*b", true),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "RegularExpressionMatching";
             Requirement = "Implement regular expression matching with support for '.' and '*'.";

@@ -26,7 +26,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, string>("1,1,1,1,1", "0,0,0,0,0"),
             new KeyValuePair<string, string>("2,-5,-2,-4,-1", "4,0,1,0,0"),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "Count of Smaller Numbers After Self";
             Requirement = "You are given an integer array nums and you have to return a new counts array. The counts array has the property where counts[i] is the number of smaller elements to the right of nums[i].";

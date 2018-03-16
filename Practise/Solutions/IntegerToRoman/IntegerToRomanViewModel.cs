@@ -23,7 +23,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<int, string>(4, "IV"),
             new KeyValuePair<int, string>(99, "XCIX"),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "IntegerToRoman";
             Requirement = "Given an integer, convert it to a roman numeral.";

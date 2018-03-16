@@ -24,7 +24,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, int>("abc\n", 3),
             new KeyValuePair<string, int>("\naabcd", 5),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "EditDistanceCalculator";
             Requirement = "Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. ";

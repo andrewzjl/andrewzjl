@@ -27,7 +27,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, string>("1,6,7\n2,3,4,5,7","1,2,3,4,5,6,7,7"),
             new KeyValuePair<string, string>("1,2,2,2,7\n2,2,2,2,3","1,2,2,2,2,2,2,2,3,7"),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "MergeTwoSortedLists";
             Requirement = "Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.";

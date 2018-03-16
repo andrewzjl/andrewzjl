@@ -20,39 +20,69 @@ namespace LeetCodePractise.Solutions
                 return new List<int>();
             }
             var length = nums.Length;
-            var result = new List<int>(length);
-            for (int i = 0; i < length; i++)
-            {
-                result.Add(length - 1 - i);
-            }
-            var orderedList = new List<int>(length);
+            int[] result = new int[length];
+            Node root = null;
             for (int i = length - 1; i >= 0; i--)
             {
-                var index = InsertToOrderedList(orderedList, nums[i]);
-                result[i] -= index;
+                root = BuildBinarySearchTree(root, nums, result, i, 0);
             }
             return result;
         }
 
-        /// <summary>
-        /// Updates the list by insert the new element in order.
-        /// </summary>
-        /// <param name="orderedList">The ordered list.</param>
-        /// <param name="newElement">The newElement.</param>
-        /// <returns>the inserted index</returns>
-        private static int InsertToOrderedList(List<int> orderedList, int newElement)
+        private static Node BuildBinarySearchTree(Node root, int[] nums, int[] result, int index, int preSum)
         {
-            var index = orderedList.FindIndex(i => i < newElement);
-            if (index < 0)
+            if (root == null)
             {
-                orderedList.Add(newElement);
-                return orderedList.Count - 1;
+                root = new Node(nums[index], 0);
+                result[index] = preSum;
             }
             else
             {
-                orderedList.Insert(index, newElement);
-                return index;
+                if (root.Val == nums[index])
+                {
+                    root.DupCount++;
+                    result[index] = preSum + root.Num;
+                }
+                else if (root.Val < nums[index])
+                {
+                    root.Right = BuildBinarySearchTree(root.Right, nums, result, index, preSum + root.DupCount + root.Num);
+                }
+                else
+                {
+                    root.Num++;
+                    root.Left = BuildBinarySearchTree(root.Left, nums, result, index, preSum);
+                }
             }
+            return root;
         }
+
+        private class Node
+        {
+            public Node Left = null;
+            public Node Right = null;
+            /// <summary>
+            /// Current node's value
+            /// </summary>
+            public int Val;
+            /// <summary>
+            /// The count of current node's left tree
+            /// </summary>
+            public int Num = 0;
+            /// <summary>
+            /// The duplicate count
+            /// </summary>
+            public int DupCount = 1;
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Node"/> class.
+            /// </summary>
+            /// <param name="val">The value.</param>
+            /// <param name="num">The number of left tree.</param>
+            public Node(int val, int num)
+            {
+                Val = val;
+                Num = num;
+            } 
+        }
+
     }
 }

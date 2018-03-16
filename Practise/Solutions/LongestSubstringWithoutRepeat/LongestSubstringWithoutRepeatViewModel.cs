@@ -24,7 +24,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, int>("aabbccdeef", 3),
             new KeyValuePair<string, int>("aabcacdedc", 4),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "LongestSubstringWithoutRepeating";
             Requirement = "Given a string, find the length of the longest substring without repeating characters.";

@@ -25,7 +25,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, string>("1,2,3,4,5\n2", "1,2,3,5"),
             new KeyValuePair<string, string>("1,2,3,4,5,6,7\n7","2,3,4,5,6,7"),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "RemoveLastNthNode";
             Requirement = "Given a linked list, remove the nth node from the end of list and return its head.";

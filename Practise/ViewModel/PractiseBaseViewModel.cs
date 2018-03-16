@@ -2,13 +2,10 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using LeetCodePractise.Model;
-using LeetCodePractise.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LeetCodePractise.ViewModel
@@ -19,23 +16,49 @@ namespace LeetCodePractise.ViewModel
     /// <typeparam name="TestType">The type of the est type.</typeparam>
     /// <typeparam name="ResultType">The type of the esult type.</typeparam>
     /// <seealso cref="GalaSoft.MvvmLight.ViewModelBase" />
-    abstract public class PractiseBaseViewModel<TestType, ResultType> : ViewModelBase
+    abstract public class PractiseBaseViewModel<TestType, ResultType> : ViewModelBase, IPractiseViewModel<TestType, ResultType>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PractiseBaseViewModel{TestType, ResultType}"/> class.
+        /// We'll raise a task to execute the test cases automatically.
+        /// </summary>
         public PractiseBaseViewModel()
         {
-            Task.Run(() =>
+            Task.Run((Action)(() =>
             {
-                Stopwatch watch = Stopwatch.StartNew();
-                InitialTestCases();
-                watch.Stop();
-                PerformanceDescription = string.Format("{0}ms costed for running the tests", watch.ElapsedMilliseconds);
-            });
+                using (new ShowBusy(Guid.NewGuid().ToString(), show => IsLoading = show))
+                {
+                    Stopwatch watch = Stopwatch.StartNew();
+                    InitialTestCases();
+                    ExecuteTestCases();
+                    watch.Stop();
+                    PerformanceDescription = string.Format("{0}ms costed for running the tests", watch.ElapsedMilliseconds);
+                }
+            }));
             RegisterInstance();
         }
 
         private void RegisterInstance()
         {
             Messenger.Default.Send<ViewModelBase>(this);
+        }
+
+        private bool _isLoading;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is loading.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is loading; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                RaisePropertyChanged();
+            }
         }
 
         private string _title;
@@ -73,6 +96,43 @@ namespace LeetCodePractise.ViewModel
                 RaisePropertyChanged();
             }
         }
+
+        private Difficulty _difficulty;
+
+        /// <summary>
+        /// Gets or sets the difficulty.
+        /// </summary>
+        /// <value>
+        /// The difficulty.
+        /// </value>
+        public Difficulty Difficulty
+        {
+            get { return _difficulty; }
+            set
+            {
+                _difficulty = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _id;
+
+        /// <summary>
+        /// Gets or sets the problem's identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         private string _performanceDescription;
 
@@ -141,9 +201,7 @@ namespace LeetCodePractise.ViewModel
                     ?? (_addNewTestRecordCommand = new RelayCommand(
                     () =>
                     {
-                        TestRecords.Add(new TestRecord<TestType, ResultType>(NewTestRecord, ExpectedNewResult, SolutionExecutor(NewTestRecord)));
-                        NewTestRecord = default(TestType);
-                        ExpectedNewResult = default(ResultType);
+                        AddTestCases(NewTestRecord, ExpectedNewResult);
                     }));
             }
         }
@@ -166,15 +224,45 @@ namespace LeetCodePractise.ViewModel
             }
         }
 
-        private RelayCommand<TestType> _recalculateTestCase;
+        private TestRecord<TestType, ResultType> _selectedRecord;
 
-        public RelayCommand<TestType> ReCalculateCommand
+        /// <summary>
+        /// Gets or sets the selected record.
+        /// </summary>
+        /// <value>
+        /// The selected record.
+        /// </value>
+        public TestRecord<TestType, ResultType> SelectedRecord
+        {
+            get { return _selectedRecord; }
+            set
+            {
+                _selectedRecord = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private RelayCommand _recalculateTestCase;
+
+        /// <summary>
+        /// Gets the re-calculate command. Used to trigger the calculate again by double click. It's useful for debugging.
+        /// </summary>
+        /// <value>
+        /// The re calculate command.
+        /// </value>
+        public RelayCommand ReCalculateCommand
         {
             get
             {
-                return _recalculateTestCase ?? (_recalculateTestCase = new RelayCommand<TestType>((testCase) =>
+                return _recalculateTestCase ?? (_recalculateTestCase = new RelayCommand(() =>
                 {
-                    SolutionExecutor?.DynamicInvoke(testCase);
+                    if (SelectedRecord != null)
+                    {
+                        var testCase = SelectedRecord.TestCase;
+                        var result = SolutionExecutor?.DynamicInvoke(testCase);
+                        SelectedRecord.ActualResult = (ResultType)result;
+                    }
                 }));
             }
         }
@@ -182,7 +270,57 @@ namespace LeetCodePractise.ViewModel
 
         public delegate ResultType CalculateResult(TestType testCase);
 
+        /// <summary>
+        /// The solution executor. It should be set in derived classes.
+        /// </summary>
         protected CalculateResult SolutionExecutor;
-        abstract protected void InitialTestCases();
+
+        /// <summary>
+        /// Initials the test cases.
+        /// </summary>
+        protected virtual void InitialTestCases()
+        {
+        }
+
+        /// <summary>
+        /// Executes the test cases.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Solution executor should be set before execute test cases</exception>
+        protected virtual void ExecuteTestCases()
+        {
+            if (SolutionExecutor == null)
+            {
+                throw new InvalidOperationException("Solution executor should be set before execute test cases");
+            }
+            var records = new List<TestRecord<TestType, ResultType>>();
+            _testCaseCollection.ForEach(testCase => records.Add(new TestRecord<TestType, ResultType>(testCase.Key, testCase.Value, SolutionExecutor(testCase.Key))));
+            TestRecords = new ObservableCollection<TestRecord<TestType, ResultType>>(records);
+        }
+
+        private List<KeyValuePair<TestType, ResultType>> _testCaseCollection = new List<KeyValuePair<TestType, ResultType>>();
+        /// <summary>
+        /// Adds the test cases into test pool.
+        /// </summary>
+        /// <param name="testCase">The test case.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        protected virtual void AddTestCases(TestType testCase, ResultType expectedResult)
+        {
+            if (IsValidTestCase(testCase))
+            {
+                _testCaseCollection.Add(new KeyValuePair<TestType, ResultType>(testCase, expectedResult));
+            }
+        }
+
+        /// <summary>
+        /// Determines whether [the specified test case] [is valid test case] .
+        /// </summary>
+        /// <param name="testCase">The test case.</param>
+        /// <returns>
+        ///   <c>true</c> if [the specified test case] [is valid test case]; otherwise, <c>false</c>.
+        /// </returns>
+        protected virtual bool IsValidTestCase(TestType testCase)
+        {
+            return true;
+        }
     }
 }

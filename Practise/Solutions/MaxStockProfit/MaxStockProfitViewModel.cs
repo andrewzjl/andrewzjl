@@ -24,7 +24,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, int>("2,24,2,32", 30),
             new KeyValuePair<string, int>("2,24,9,2,32", 52),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "Best Time to Buy and Sell Stock with Cooldown";
             Requirement = "Say you have an array for which the ith element is the price of a given stock on day i.\n" +

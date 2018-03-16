@@ -34,6 +34,7 @@ namespace LeetCodePractise.ViewModel
 
             SimpleIoc.Default.Register<MainViewModel>(true);
             SimpleIoc.Default.Register<StringToIntViewModel>(true);
+            SimpleIoc.Default.Register<ThreeSumViewModel>(true);
             SimpleIoc.Default.Register<PalindromeNumberVerifyViewModel>(true);
             SimpleIoc.Default.Register<RomanToIntegerViewModel>(true);
             SimpleIoc.Default.Register<IntegerToRomanViewModel>(true);
@@ -46,6 +47,16 @@ namespace LeetCodePractise.ViewModel
             SimpleIoc.Default.Register<LongestPalindromicSubstringViewModel>(true);
             SimpleIoc.Default.Register<MaxStockProfitViewModel>(true);
             SimpleIoc.Default.Register<CountOfSmallerAfterSelfViewModel>(true);
+            SimpleIoc.Default.Register<ThreeSumClosestViewModel>(true);
+            SimpleIoc.Default.Register<NearestPalindromicViewModel>(true);
+            SimpleIoc.Default.Register<ReverseBitsViewModel>(true);
+            SimpleIoc.Default.Register<FindKClosestElementsViewModel>(true);
+            SimpleIoc.Default.Register<LetterCombinationsViewModel>(true);
+            SimpleIoc.Default.Register<MyPowViewModel>(true);
+            SimpleIoc.Default.Register<LargetestPalindromeProdutViewModel>(true);
+            SimpleIoc.Default.Register<FourSumViewModel>(true);
+            SimpleIoc.Default.Register<MergeKSortedListsViewModel>(true);
+            SimpleIoc.Default.Register<SwapNodesInPairsViewModel>(true);
         }
 
         public MainViewModel MainViewModel

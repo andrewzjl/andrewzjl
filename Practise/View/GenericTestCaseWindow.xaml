@@ -4,54 +4,91 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LeetCodePractise.View" 
+        xmlns:util="clr-namespace:LeetCodePractise.View.Utils" 
         xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="{Binding Title}" SizeToContent="WidthAndHeight">
     <Window.Resources>
-        <Style TargetType="{x:Type ListViewItem}">
-            <Setter Property="Background" Value="Red"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsCorrect}" Value="true">
-                    <Setter Property="Background" Value="White"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Theme/DefaultTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <util:BoolToVisibilityConverter x:Key="TrueToVisibleConverter"/>
+            <util:BoolToVisibilityConverter x:Key="FalseToVisibleConverter" VisibilityIfFalse="Visible" VisibilityIfTrue="Collapsed"/>
+            <Style TargetType="{x:Type ListViewItem}">
+                <Setter Property="Background" Value="Red"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsCorrect}" Value="true">
+                        <Setter Property="Background" Value="White"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="ShowBusyControlStyle" TargetType="Control" BasedOn="{StaticResource BusyAnimationStyle}">
+                <Setter Property="Height" Value="400"/>
+                <Setter Property="Visibility" Value="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}"/>
+            </Style>
+            <Style x:Key="TestRecordsContainerStyle" TargetType="{x:Type ListBox}">
+                <Setter Property="MaxHeight" Value="600"/>
+                <Setter Property="Visibility" Value="{Binding IsLoading, Converter={StaticResource FalseToVisibleConverter}}"/>
+                <Style.Triggers>
+
+                </Style.Triggers>
+            </Style>
+                   
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Margin="10,10,10,10">
-            <TextBlock Text="{Binding Requirement}" TextWrapping="WrapWithOverflow" Margin="0,0,0,10"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding PerformanceDescription}" TextWrapping="WrapWithOverflow" Margin="0,0,0,15"/>
-                <!-- Control for add new record -->
-                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
-                    <TextBlock Text="TestRecords: "/>
-                    <TextBox Text="{Binding NewTestRecord}" Margin="0,0,0,5"/>
-                    <TextBlock Text="Expected Result: "/>
-                    <TextBox Text="{Binding ExpectedNewResult}" Margin="0,0,0,5"/>
-                    <Button Content="Add Test Case" Command="{Binding AddNewTestRecordCommand}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="10,10,10,10">
+                <TextBlock Text="{Binding Requirement}" TextWrapping="WrapWithOverflow" Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding PerformanceDescription}" TextWrapping="WrapWithOverflow" Margin="0,0,0,15"/>
+                    <!-- Control for add new record -->
+                    <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                        <TextBlock Text="TestRecords: "/>
+                        <TextBox Text="{Binding NewTestRecord}" Margin="0,0,0,5"/>
+                        <TextBlock Text="Expected Result: "/>
+                        <TextBox Text="{Binding ExpectedNewResult}" Margin="0,0,0,5"/>
+                        <Button Content="Add Test Case" Command="{Binding AddNewTestRecordCommand}"/>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <ListView Name="TestList" MaxHeight="600" Grid.Row="1" ItemsSource="{Binding TestRecords}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <mvvm:EventToCommand Command="{Binding ReCalculateCommand}"
-                                           CommandParameter="{Binding SelectedItem.TestCase, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                                           PassEventArgsToCommand="True"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="TestString" Width="180" DisplayMemberBinding="{Binding TestCase}"/>
-                    <GridViewColumn Header="Expected" Width="100" DisplayMemberBinding="{Binding ExpectedResult}"/>
-                    <GridViewColumn Header="ActualResult" Width="100" DisplayMemberBinding="{Binding ActualResult}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+            <Control Style="{StaticResource ShowBusyControlStyle}" Grid.Row="1"/>
+            <ListView Name="TestList" Style="{StaticResource TestRecordsContainerStyle}"
+                      Grid.Row="1" SelectedItem="{Binding SelectedRecord}" ItemsSource="{Binding TestRecords}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <mvvm:EventToCommand Command="{Binding ReCalculateCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="TestString" Width="180" DisplayMemberBinding="{Binding TestCase}"/>
+                        <GridViewColumn Header="Expected" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox BorderBrush="{x:Null}" Background="{x:Null}" Text="{Binding ExpectedResult, Mode=TwoWay}"
+                                             TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="ActualResult" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox BorderBrush="{x:Null}" Background="{x:Null}" Text="{Binding ActualResult}" IsReadOnly="True"
+                                             TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 </Window>

@@ -51,6 +51,10 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -78,8 +82,30 @@
     <Compile Include="Model\Extensions\StrinsExtensions.cs" />
     <Compile Include="Model\ListNode.cs" />
     <Compile Include="Model\TestRecord.cs" />
+    <Compile Include="Solutions\4Sum\4Sum.cs" />
+    <Compile Include="Solutions\4Sum\FourSumViewModel.cs" />
+    <Compile Include="Solutions\LargestPalindromeProduct\LargestPalindromeProduct.cs" />
+    <Compile Include="Solutions\LargestPalindromeProduct\LargestPalindromeProductViewModel.cs" />
+    <Compile Include="Solutions\MergeKSortedLists\MergeTwoSortedLists.cs" />
+    <Compile Include="Solutions\MergeKSortedLists\MergeTwoSortedListsViewModel.cs" />
+    <Compile Include="Solutions\SwapNodesInPairs\SwapNodesInPairs.cs" />
+    <Compile Include="Solutions\SwapNodesInPairs\SwapNodesInPairsViewModel.cs" />
+    <Compile Include="Solutions\Pow\MyPow.cs" />
+    <Compile Include="Solutions\Pow\MyPowViewModel.cs" />
+    <Compile Include="Solutions\LetterCombinations\LetterCombinations.cs" />
+    <Compile Include="Solutions\LetterCombinations\LetterCombinationsViewModel.cs" />
+    <Compile Include="Solutions\FindKClosestElements\FindKClosestElements.cs" />
+    <Compile Include="Solutions\FindKClosestElements\FindKClosestElementsViewModel.cs" />
+    <Compile Include="Solutions\ReverseBits\ReverseBits.cs" />
+    <Compile Include="Solutions\ReverseBits\ReverseBitsViewModel.cs" />
+    <Compile Include="Solutions\ClosestPalindrome\NearestPalindromic.cs" />
+    <Compile Include="Solutions\ClosestPalindrome\NearestPalindromicViewModel.cs" />
+    <Compile Include="Solutions\3SumClosest\3SumClosest.cs" />
+    <Compile Include="Solutions\3SumClosest\ThreeSumClosestViewModel.cs" />
     <Compile Include="Solutions\IntegerToRoman\IntegerToRoman.cs" />
     <Compile Include="Solutions\IntegerToRoman\IntegerToRomanViewModel.cs" />
+    <Compile Include="Solutions\3Sum\3Sum.cs" />
+    <Compile Include="Solutions\3Sum\ThreeSumViewModel.cs" />
     <Compile Include="Solutions\LongestCommonPrefix\LongestCommonPrefix.cs" />
     <Compile Include="Solutions\LongestCommonPrefix\LongestCommonPrefixViewModel.cs" />
     <Compile Include="Solutions\LongestSubstringWithoutRepeat\LongestSubstringWithoutRepeat.cs" />
@@ -92,8 +118,8 @@
     <Compile Include="Solutions\CountOfSmallerAfterSelf\CountOfSmallerAfterSelfViewModel.cs" />
     <Compile Include="Solutions\RegularExpressionMatching\RegularExpressionMatching.cs" />
     <Compile Include="Solutions\RegularExpressionMatching\RegularExpressionMatchingViewModel.cs" />
-    <Compile Include="Solutions\MergeTwoSortedLists\MergeTwoSortedLists.cs" />
-    <Compile Include="Solutions\MergeTwoSortedLists\MergeTwoSortedListsViewModel.cs" />
+    <Compile Include="Solutions\MergeTwoSortedLists\MergeKLists.cs" />
+    <Compile Include="Solutions\MergeTwoSortedLists\MergeKListsViewModel.cs" />
     <Compile Include="Solutions\PalindromeNumber\PalindromeNumberVerify.cs" />
     <Compile Include="Solutions\PalindromeNumber\PalindromeNumberVerifyViewModel.cs" />
     <Compile Include="Solutions\PreoderTreeVerify\PreorderTreeVerify.cs" />
@@ -108,7 +134,11 @@
     <Compile Include="Solutions\RomanToInteger\RomanToIntegerViewModel.cs" />
     <Compile Include="Solutions\StringToInt\StringToInt.cs" />
     <Compile Include="Solutions\StringToInt\StringToIntViewModel.cs" />
-    <Compile Include="Utils\IntComparisonConverter.cs" />
+    <Compile Include="ViewModel\Enums\Difficulty.cs" />
+    <Compile Include="ViewModel\ShowBusy.cs" />
+    <Compile Include="View\Utils\BoolToVisibilityConverter.cs" />
+    <Compile Include="View\Utils\IntComparisonConverter.cs" />
+    <Compile Include="ViewModel\IPractiseViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PractiseBaseViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -128,6 +158,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Solutions\PreoderTreeVerify\PreorderVerifyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\DefaultTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

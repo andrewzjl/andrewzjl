@@ -22,7 +22,7 @@ namespace LeetCodePractise.Solutions
             new KeyValuePair<string, string>("abc,abcd,abe", "ab"),
             new KeyValuePair<string, string>("abc,abcd,abe,", ""),
         };
-        protected override void InitialTestCases()
+        protected override void ExecuteTestCases()
         {
             Title = "LongestCommonPrefix";
             Requirement = "Write a function to find the longest common prefix string amongst an array of strings.";

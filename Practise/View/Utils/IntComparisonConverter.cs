@@ -6,8 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace LeetCodePractise.Utils
+namespace LeetCodePractise.View.Utils
 {
+    /// <summary>
+    /// The converter for comparing whether binded integer are equaled to the integer as parameter
+    /// </summary>
+    /// <seealso cref="System.Windows.Data.IValueConverter" />
     public class IntComparisonConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
