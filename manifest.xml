@@ -15,8 +15,8 @@ Version. Updates from the store only get triggered if there is a version change.
  <!--
  The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. 
 -->
-<DisplayName DefaultValue="Hyper localhost"/>
-<Description DefaultValue="Play on the outlook add-ins"/>
+<DisplayName DefaultValue="Hyper updated"/>
+<Description DefaultValue="Play on the deploy by url"/>
  <!--
  Icon for your add-in. Used on installation screens and the add-ins dialog. 
 -->
@@ -126,7 +126,7 @@ If you plan to submit this add-in to the Office Store, uncomment the SupportUrl 
 </bt:Images>
 <bt:Urls>
 <bt:Url id="functionFile" DefaultValue="https://10.21.12.130:3000/function-file/function-file.html"/>
-<bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://10.21.12.130:3000/login/login.html"/>
+<bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://10.21.12.130:3000/"/>
 <bt:Url id="detectedEntityURL" DefaultValue="https://10.21.12.130:3000/HyperCard/hyperCard.html"/>
 </bt:Urls>
 <bt:ShortStrings>
