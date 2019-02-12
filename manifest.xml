@@ -134,7 +134,7 @@ If you plan to submit this add-in to the Office Store, uncomment the SupportUrl 
 <bt:String id="customTabLabel" DefaultValue="Hyper Add-in Tab"/>
 <bt:String id="paneReadButtonLabel" DefaultValue="Hyper Office"/>
 <bt:String id="paneReadSuperTipTitle" DefaultValue="Changed World in Hyper"/>
-<bt:String id="contextLabel" DefaultValue="Hyper index Detected"/>
+<bt:String id="contextLabel" DefaultValue="Static keyword Detected"/>
 </bt:ShortStrings>
 <bt:LongStrings>
 <bt:String id="paneReadSuperTipDescription" DefaultValue="Opens a pane displaying the smart world in Hyper."/>
