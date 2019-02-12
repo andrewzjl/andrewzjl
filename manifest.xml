@@ -9,7 +9,7 @@
  <!--
 Version. Updates from the store only get triggered if there is a version change. 
 -->
-<Version>1.0.0.1</Version>
+<Version>1.1.0.1</Version>
 <ProviderName>MicroStrategy</ProviderName>
 <DefaultLocale>en-US</DefaultLocale>
  <!--
